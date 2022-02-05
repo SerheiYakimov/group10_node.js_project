@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // import usersRouter from './routes/api/users';
+import authRouter from './routes/api/auth';
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use(cors());
 app.use(express.json());
 
 // app.use('/api/users', usersRouter)
+
+app.use('/api/auth', authRouter)
 
 // app.use((req, res) => {
 //   res.status(404).json({ message: 'Not found' })
