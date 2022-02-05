@@ -22,16 +22,8 @@ const userSchema = new Schema({
             return re.test(String(value).trim().toLowerCase());
         }
     },
-    income: {
-        type: Boolean,
-        default: true,
-    },
-    category: {
-        type: String,
-        default: null,
-    },
-    subcategory: {
-        type: String,
+    balance: {
+        type: Number,
         default: null,
         },
     token: {
