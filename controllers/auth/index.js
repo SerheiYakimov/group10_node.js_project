@@ -1,5 +1,5 @@
 import { HttpCode } from '../../lib/constants';
-import AuthService from '../../service/auth';
+import AuthService from '../../services/auth';
 const authService = new AuthService();
 
 const registration = async (req, res, _next) => {

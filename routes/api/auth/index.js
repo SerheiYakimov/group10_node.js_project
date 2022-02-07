@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { registration, login, logout } from '../../../controllers/auth';
-import guard from '../../../midllewares/guard/guard';
+import guard from '../../../middlewares/guard/guard';
 import {
     validateSingup,
     validateLogin,
-} from '../../../midllewares/validations/usersValidation';
+} from '../../../middlewares/validations/userValidation';
 
 const router = new Router();
 
