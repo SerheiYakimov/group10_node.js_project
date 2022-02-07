@@ -1,3 +1,5 @@
+import authService from '../../services/auth'
+
 export const updateBalance = async (res, req, next) => {
     const { id: userId } = req.user
     const { balance } = req.body

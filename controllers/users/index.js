@@ -1,4 +1,4 @@
-import updateBalance from "./updateBalance";
+import { updateBalance } from "./updateBalance";
 
 export default {
     updateBalance,
