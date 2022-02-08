@@ -1,6 +1,9 @@
 import { HttpCode } from '../../lib/constants';
-import AuthService from '../../service/auth';
-const authService = new AuthService();
+import authService from '../../services/auth';
+import {
+  EmailService,
+  SenderSendGrid
+} from '../../services/email';
 
 export const registration = async (req, res, _next) => {
     const { email } = req.body;
@@ -14,11 +17,22 @@ export const registration = async (req, res, _next) => {
             });
 
     }
-    const data = await authService.create(req.body);
+    const userData = await authService.create(req.body);
+    const emailService = new EmailService(
+      process.env.NODE_ENV,
+      new SenderSendGrid(),
+    );
+    const isSend = await emailService.sendVerifyEmail(
+      email,
+      userData.name,
+      userData.verifyToken,
+    )
+    delete userData.verifyToken;
+
     res.status(HttpCode.CREATED).json(
         {
-            status: 'success',
-            code: HttpCode.CREATED,
-            data
-        });
+        status: 'success',
+        code: HttpCode.CREATED,
+        data: { ...userData, isSendEmailVerify: isSend },
+        });   
 }

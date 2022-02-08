@@ -1,5 +1,9 @@
-import updateBalance from "./updateBalance";
+import { updateBalance } from "./updateBalance";
+import { repeatEmailForVerifyUser } from "./repeatEmailForVerifyUser";
+import { verifyUser } from "./verifyUser";
 
-export default {
+export {
     updateBalance,
+    repeatEmailForVerifyUser,
+    verifyUser,
 }

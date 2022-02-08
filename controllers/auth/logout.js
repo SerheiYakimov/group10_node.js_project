@@ -1,6 +1,6 @@
 import { HttpCode } from '../../lib/constants';
-import AuthService from '../../service/auth';
-const authService = new AuthService();
+import authService from '../../services/auth';
+
 
 export const logout = async (req, res, _next) => {
     await authService.setToken(req.user.id, null);

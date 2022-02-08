@@ -9,19 +9,20 @@ class AuthService {
     }
 
     async create(body) {
-        const { id, name, email, balance } = await Users.create(body);
+        const { id, name, email, balance, verifyToken } = await Users.create(body);
         return {
             id,
             name,
             email,
             balance,
+            verifyToken,
         }
     }
 
     async getUser(email, password) {
         const user = await Users.findByEmail(email);
         const isValidPassword = await user?.isValidPassword(password)
-        if (!isValidPassword) {
+        if (!isValidPassword || user?.verify) {
             return null
         }
         return user
@@ -40,4 +41,4 @@ class AuthService {
     }
  }
 
-export default AuthService;
+export default new AuthService();

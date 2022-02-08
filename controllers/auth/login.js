@@ -1,6 +1,6 @@
 import { HttpCode } from '../../lib/constants';
-import AuthService from '../../service/auth';
-const authService = new AuthService();
+import authService from '../../services/auth';
+
 
 export const login = async (req, res, _next) => {
     const { email, password } = req.body;
