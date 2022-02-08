@@ -1,4 +1,5 @@
 import { HttpCode } from '../../lib/constants';
+
 import authService from '../../services/auth';
 import {
   EmailService,
@@ -36,3 +37,4 @@ export const registration = async (req, res, _next) => {
         data: { ...userData, isSendEmailVerify: isSend },
         });   
 }
+
