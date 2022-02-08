@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { currentUser } from '../../../controllers/users';
-import guard from '../../../midllewares/guard/guard';
+import { verifyUser, repeatEmailForVerifyUser } from '../../../controllers/users';
+import { validateEmail } from '../../../middlewares/validations/userValidation';
 
 const router = new Router();
 
-router.get('/current', guard, currentUser);
+router.get('/verify/:verifyToken', verifyUser);
+router.post('/verify', validateEmail, repeatEmailForVerifyUser);
 
 
 export default router;

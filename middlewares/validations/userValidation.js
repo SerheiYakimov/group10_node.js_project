@@ -11,6 +11,10 @@ const loginSchema = Joi.object({
     password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{8,30}$')),
 });
 
+const verifyEmailSchema = Joi.object({
+    email: Joi.string().email().required(),
+});
+
 
 export const validateSingup = async (req, res, next) => {
     try {
@@ -38,6 +42,16 @@ export const validateLogin = async (req, res, next) => {
     }
     catch (err) {
         return res.status(400).json({ message: 'Invalid credentials' })
+    }
+    next()
+}
+
+export const validateEmail = async (req, res, next) => {
+    try {
+        await verifyEmailSchema.validateAsync(req.body);
+    }
+    catch (err) {
+        return res.status(400).json({ message: 'message": "missing required field email' })
     }
     next()
 }

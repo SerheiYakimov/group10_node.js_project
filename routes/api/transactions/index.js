@@ -3,7 +3,7 @@ import {
     getTransactions,
     createTransaction,
     removeTransaction,
-} from "../../../controllers/transactions/index";
+} from "../../../controllers/transactions";
 import guard from '../../../middlewares/guard'
 
 const transactionsRouter = new express.Router()
