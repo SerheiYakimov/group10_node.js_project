@@ -6,8 +6,9 @@ import {
   SenderSendGrid
 } from '../../services/email';
 
-export const registration = async (req, res, _next) => {
-    const { email } = req.body;
+export const registration = async (req, res, next) => {
+    try {
+        const { email } = req.body;
     const isUserExist = await authService.isUserExist(email);
     if (isUserExist) {
         return res.status(HttpCode.CONFLICT).json(
@@ -36,5 +37,8 @@ export const registration = async (req, res, _next) => {
         code: HttpCode.CREATED,
         data: { ...userData, isSendEmailVerify: isSend },
         });   
+    } catch (error) {
+        next(error)
+    }
 }
 
