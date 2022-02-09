@@ -11,10 +11,10 @@ export const updateBalance = async (res, req, next) => {
         })
     }
     await authService.setBalance(userId, balance)
-    const tempBalance = await authService.getBalance(userId)
+    const tempUserBalance = await authService.getBalance(userId)
     return res.status(HttpCode.OK).json({
         status: 'success',
         code: HttpCode.OK,
-        data: { userBalance }
+        data: { tempUserBalance }
     })
 }
