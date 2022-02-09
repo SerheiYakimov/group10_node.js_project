@@ -28,6 +28,14 @@ class AuthService {
         return user
     }
 
+    async getUserGoogle(email) {
+        const user = await Users.findByEmail(email);
+        if (user?.verify) {
+            return null
+        }
+        return user
+    }
+
 
     getToken(user) {
         const { id, email } = user;

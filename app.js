@@ -3,6 +3,7 @@ import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
+import {HttpCode} from './lib/constants'
 
 dotenv.config();
 
@@ -16,21 +17,33 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(helmet());
 
 app.use(logger(formatsLogger));
-
 app.use(cors());
-
 app.use(express.json());
 
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' });
-});
+app.use((_req, res) => {
+  res
+    .status(HttpCode.NOT_FOUND)
+    .json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'Not found',
+    })
+})
 
-app.use((err, req, res, next) => {
-  res.status(err.status || 500).json({ message: err.message });
-});
+app.use((err, _req, res, _next) => {
+  const statusCode = err.status || HttpCode.INTERNAL_SERVER_ERROR;
+  const status = statusCode === HttpCode.INTERNAL_SERVER_ERROR ? 'fail' : 'error';
+  res
+    .status(HttpCode.INTERNAL_SERVER_ERROR)
+    .json({
+      status: status,
+      code: statusCode,
+      message: err.message,
+    })
+})
 
 export default app;
