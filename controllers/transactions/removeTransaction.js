@@ -1,4 +1,5 @@
 import { HttpCode } from "../../lib/constants"
+import repositoryTransactions from '../../repository/transactions'
 
 export const removeTransaction = async (req, res, next) => {
     const { id } = req.params

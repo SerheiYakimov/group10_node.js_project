@@ -1,4 +1,5 @@
 import { HttpCode } from "../../lib/constants"
+import repositoryTransactions from '../../repository/transactions'
 
 export const getTransactions = async (req, res, next) => {
     const { id: userId } = req.user
