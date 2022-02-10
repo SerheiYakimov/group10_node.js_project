@@ -30,7 +30,7 @@ class AuthService {
 
     async getUserGoogle(email) {
         const user = await Users.findByEmail(email);
-        if (user?.verify) {
+        if (!user) {
             return null
         }
         return user
