@@ -1,12 +1,7 @@
 import queryString from 'query-string';
 import axios from 'axios';
 import { HttpCode } from '../../lib/constants';
-
 import authService from '../../services/auth';
-import {
-  EmailService,
-  SenderSendGrid
-} from '../../services/email';
 
 export const googleRedirect = async (req, res) => {
     const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
@@ -46,14 +41,8 @@ export const googleRedirect = async (req, res) => {
   }
   const token = authService.getToken(user);
   await authService.setToken(user.id, token);
-  res.status(HttpCode.OK).json({
-    status: 'success',
-    code: HttpCode.OK,
-    data: { token },
-  });
-
-
-    return res.redirect(
-      `${process.env.FRONTEND_URL}?token=${user.token}`
+  
+     return res.redirect(
+      `${process.env.FRONTEND_URL}?accessToken=${token}`
     );
   };

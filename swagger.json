@@ -1,0 +1,231 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "version": "1.0.0",
+      "title": "Kapusta",
+      "description": "Showing off swagger-ui-express"
+    },
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "servers": [{ "url": "http://localhost:3001" }],
+    "tags": [
+      {
+        "name": "Auth",
+        "description": "Authorization endpoints"
+      }
+    ],
+    "paths": {
+      "/auth/registration": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "User registration",
+          "parameters": [],
+          "security": [{ "Bearer": [] }],
+          "requestBody": {
+            "description": "Registration's object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/RegistrationResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Missing required name field",
+              "content": {}
+            },
+            "409": {
+              "description": "Email in use",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "User authentication",
+          "parameters": [],
+          "security": [{ "Bearer": [] }],
+          "requestBody": {
+            "description": "login object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/LoginResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid credentials",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/auth/logout": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "User logout",
+          "parameters": [],
+          "security": [{ "Bearer": [] }]
+          },
+        "responses": {
+          "204": {
+            "description": "No content",
+            "content": {}
+          }
+        }
+      },
+      "/auth/google": {
+        "get": {
+          "tags": ["Auth"],
+          "summary": "Google authentication",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {}
+            },
+            "401": {
+              "description": "Invalid credentials",
+              "content": {}
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "RegistrationRequest": {
+          "type": "object",
+          "required": ["email", "password"],
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "password": {
+              "type": "string",
+              "description": "User's password",
+              "example": "qwerty123"
+            }
+          }
+        },
+        "RegistrationResponse": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "3214sfdgdfg45466"
+              },
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Name"
+              },
+              "balance": {
+                "type": "number",
+                "description": "User's balance",
+                "example": "000.00"
+              },
+              "verifyToken": {
+                "type": "string",
+                "description": "User's verifyToken",
+                "example": "3214sfdgdfg45466"
+              },
+              "isSendEmailVerify": {
+                "type": "boolean",
+                "description": "send verify mail",
+                "example": "true"
+              }
+            }
+          },
+          "example": [
+            { 
+                "id": "sdfhfgjfhj456fghfj", 
+                "name": "user",
+                "email": "1@gmail.com", 
+                "balance": "null",
+                "isSendEmailVerify": "true"
+            }
+          ]
+        },
+          "LoginRequest": {
+            "type": "object",
+            "required": ["email", "password"],
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "password": {
+                "type": "string",
+                "description": "User's password",
+                "example": "qwerty123"
+              }
+            }
+          },
+          "LoginResponse": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "description": "User's token",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+                }
+              }
+            },
+          "example": [
+            { 
+              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+            }
+          ]
+    }
+      },
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }

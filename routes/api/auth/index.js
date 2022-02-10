@@ -12,8 +12,8 @@ const router = new Router();
 router.post('/registration', validateSingup, registration);
 router.post('/login', validateLogin, login);
 router.post('/logout', guard, logout);
-router.get("/google", googleAuth);
-router.get("/google-redirect", googleRedirect);
+router.get('/google', googleAuth);
+router.get('/google-redirect', googleRedirect);
 
 
 export default router;
