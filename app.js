@@ -24,13 +24,8 @@ app.use(express.json());
 
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
-// 
-app.use("/link", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../public/link.html"));
-});
-// 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_req, res) => {
   res

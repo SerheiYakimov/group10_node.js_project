@@ -12,10 +12,14 @@
       {
         "name": "Auth",
         "description": "Authorization endpoints"
+      },
+      {
+        "name": "User",
+        "description": "User endpoinds"
       }
     ],
     "paths": {
-      "/auth/registration": {
+      "/api/auth/registration": {
         "post": {
           "tags": ["Auth"],
           "summary": "User registration",
@@ -54,7 +58,7 @@
           }
         }
       },
-      "/auth/login": {
+      "/api/auth/login": {
         "post": {
           "tags": ["Auth"],
           "summary": "User authentication",
@@ -89,21 +93,21 @@
           }
         }
       },
-      "/auth/logout": {
+      "/api/auth/logout": {
         "post": {
           "tags": ["Auth"],
           "summary": "User logout",
           "parameters": [],
-          "security": [{ "Bearer": [] }]
-          },
-        "responses": {
-          "204": {
-            "description": "No content",
-            "content": {}
+          "security": [{ "Bearer": [] }],
+          "responses": {
+            "204": {
+              "description": "No content",
+              "content": {}
+            }
           }
         }
       },
-      "/auth/google": {
+      "/api/auth/google": {
         "get": {
           "tags": ["Auth"],
           "summary": "Google authentication",
@@ -113,13 +117,38 @@
               "content": {}
             },
             "401": {
-              "description": "Invalid credentials",
+              "description": "Google login for registered users only! Please register!",
               "content": {}
             }
           }
         }
-      }
-    },
+      },
+      "/api/users/current": {
+          "get": {
+              "tags": ["User"],
+              "summary": "Get all info about current user",
+              "parameters": [],
+              "security": [{ "Bearer": [] }],
+              "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCurrentUserInfo"
+                                }
+                            }
+                        }
+
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    }
+                }
+            }
+        }
+      },
     "components": {
       "schemas": {
         "RegistrationRequest": {
@@ -139,86 +168,93 @@
           }
         },
         "RegistrationResponse": {
-          "type": "array",
-          "items": {
             "type": "object",
             "properties": {
-              "email": {
+                "email": {
                 "type": "string",
                 "description": "User's email",
                 "format": "email"
-              },
-              "id": {
+                },
+                "id": {
                 "type": "string",
                 "description": "User's id",
                 "example": "3214sfdgdfg45466"
-              },
-              "name": {
+                },
+                "name": {
                 "type": "string",
                 "description": "User's name",
-                "example": "Name"
-              },
-              "balance": {
+                "example": "random name"
+                },
+                "balance": {
                 "type": "number",
                 "description": "User's balance",
-                "example": "000.00"
-              },
-              "verifyToken": {
+                "example": "0"
+                },
+                "verifyToken": {
                 "type": "string",
                 "description": "User's verifyToken",
                 "example": "3214sfdgdfg45466"
-              },
-              "isSendEmailVerify": {
+                },
+                "isSendEmailVerify": {
                 "type": "boolean",
                 "description": "send verify mail",
                 "example": "true"
-              }
-            }
-          },
-          "example": [
-            { 
-                "id": "sdfhfgjfhj456fghfj", 
-                "name": "user",
-                "email": "1@gmail.com", 
-                "balance": "null",
-                "isSendEmailVerify": "true"
-            }
-          ]
-        },
-          "LoginRequest": {
-            "type": "object",
-            "required": ["email", "password"],
-            "properties": {
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              },
-              "password": {
-                "type": "string",
-                "description": "User's password",
-                "example": "qwerty123"
-              }
-            }
-          },
-          "LoginResponse": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "description": "User's token",
-                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
                 }
-              }
+            }           
+        },
+        "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+            "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
             },
-          "example": [
-            { 
-              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+            "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
             }
-          ]
-    }
+        }
+        },
+        "LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "description": "User's token",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+                }
+            }
+        },
+        "GetCurrentUserInfo": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "User's email",
+                    "format": "email"
+                },
+                "name": {
+                    "type": "string",
+                    "description":"User's name",
+                    "example": "random name"     
+                },
+                "balance": {
+                    "type": "integer",
+                    "description": "User's balance",
+                    "example": "0"
+                },
+                "avatarURL": {
+                    "type":"http",
+                    "description": "User's avatar",
+                    "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=250"
+
+                }
+
+            }
+        }
       },
       "securitySchemes": {
         "Bearer": {
@@ -228,4 +264,4 @@
         }
       }
     }
-  }
+}
