@@ -3,7 +3,13 @@ import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
+<<<<<<< HEAD
 import { HttpCode } from './lib/constants';
+=======
+import {HttpCode} from './lib/constants';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json';
+>>>>>>> dev
 
 dotenv.config();
 
@@ -24,6 +30,8 @@ app.use(express.json());
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/transactions', transactionsRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_req, res) => {
   res.status(HttpCode.NOT_FOUND).json({

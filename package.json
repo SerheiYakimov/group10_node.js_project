@@ -25,7 +25,8 @@
     "mailgen": "^2.0.16",
     "mongoose": "^6.2.0",
     "morgan": "1.10.0",
-    "query-string": "^7.1.1"
+    "query-string": "^7.1.1",
+    "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
     "eslint": "7.19.0",
