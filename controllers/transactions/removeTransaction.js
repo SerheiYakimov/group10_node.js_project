@@ -1,20 +1,35 @@
-import { HttpCode } from "../../lib/constants"
-import repositoryTransactions from '../../repository/transactions'
+import { HttpCode } from '../../lib/constants';
+import repositoryTransactions from '../../repository/transactions';
 
 export const removeTransaction = async (req, res, next) => {
-    const { id } = req.params
-    const { id: userId } = req.user
-    const transactions = await repositoryTransactions.removeTransaction(userId, id,)
-    if (transactions === null) {
-        return res.status(HttpCode.NOT_FOUND).json({
-            status: 'error',
-            code: HttpCode.NOT_FOUND,
-            message: 'Transaction not found',
-        })
-    }
-    res.status(HttpCode.OK).json({
-        status: 'success',
-        code: HttpCode.OK,
-        message: 'Transaction successfully deleted',
-    })
-}
+  const { transactionId } = req.params;
+  const { _id, balance } = req.user;
+
+  const transactions = await repositoryTransactions.removeTransaction(
+    transactionId,
+    _id,
+    balance,
+  );
+  if (transactions === 'NOT_FOUND') {
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: `Transaction ${transactionId} not found`,
+    });
+  }
+  if (transactions === 'BAD_REQUEST') {
+    return res.status(HttpCode.BAD_REQUEST).json({
+      status: 'error',
+      code: HttpCode.BAD_REQUEST,
+      message: 'Insufficient funds on the balance sheet',
+    });
+  }
+  res.status(HttpCode.OK).json({
+    status: 'success',
+    code: HttpCode.OK,
+    message: 'Transaction successfully deleted',
+    data: {
+      balance: transactions,
+    },
+  });
+};

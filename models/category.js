@@ -1,4 +1,6 @@
-import { Schema, model } from 'mongoose';
+import pkg from 'mongoose';
+
+const { Schema, model } = pkg;
 
 const catagorySchema = new Schema({
   category: {
@@ -6,7 +8,7 @@ const catagorySchema = new Schema({
     required: true,
   },
   alias: {
-    tupe: String,
+    type: String,
     required: true,
   },
 
