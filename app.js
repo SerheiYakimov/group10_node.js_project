@@ -3,13 +3,9 @@ import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
-<<<<<<< HEAD
 import { HttpCode } from './lib/constants';
-=======
-import {HttpCode} from './lib/constants';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.json';
->>>>>>> dev
 
 dotenv.config();
 
