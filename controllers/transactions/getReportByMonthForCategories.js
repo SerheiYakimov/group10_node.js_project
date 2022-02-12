@@ -5,9 +5,12 @@ import { HttpCode } from '../../lib/constants';
 const ObjectId = mongoose.ObjectId;
 
 export const getReportByMonthForCategories = async (req, res) => {
-  const { id: _id } = req.user;
+  const { _id } = req.user;
+  const id = _id.toString();
   const { date } = req.query;
+  // date = '2022-01'
   let { isIncome } = req.query;
+  // isIncome = 'true' or 'false'
 
   if (isIncome === 'true') {
     isIncome = true;
@@ -36,9 +39,9 @@ export const getReportByMonthForCategories = async (req, res) => {
     },
     {
       $match: {
-        income: false,
-        owner: new ObjectId('6201bcd8bec645188989319c'),
-        reportPeriod: '2022-01',
+        income: isIncome,
+        owner: ObjectId(id),
+        reportPeriod: date,
       },
     },
     {
@@ -72,7 +75,9 @@ export const getReportByMonthForCategories = async (req, res) => {
     },
   ];
 
-  const resalt = await Transaction.aggregate([getReportByMonthForCategories]);
+  const resalt = await Transaction.aggregate([
+    sortTransactionByMonthForCategories,
+  ]);
 
   res.json({
     status: 'success',
