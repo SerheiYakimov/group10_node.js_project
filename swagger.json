@@ -1,231 +1,367 @@
 {
     "openapi": "3.0.1",
     "info": {
-      "version": "1.0.0",
-      "title": "Kapusta",
-      "description": "Showing off swagger-ui-express"
+        "version": "1.0.0",
+        "title": "Kapusta",
+        "description": "Showing off swagger-ui-express"
     },
-    "consumes": ["application/json"],
-    "produces": ["application/json"],
-    "servers": [{ "url": "http://localhost:3001" }],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "servers": [
+        {
+            "url": "http://localhost:3001"
+        }
+    ],
     "tags": [
-      {
-        "name": "Auth",
-        "description": "Authorization endpoints"
-      }
+        {
+            "name": "Auth",
+            "description": "Authorization endpoints"
+        },
+        {
+            "name": "User",
+            "description": "User endpoinds"
+        },
+        {
+            "name": "Transactions",
+            "description": "Transactions endpoints"
+        }
     ],
     "paths": {
-      "/auth/registration": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User registration",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "Registration's object",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegistrationRequest"
+        "/api/auth/registration": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User registration",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Registration's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistrationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistrationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing required name field",
+                        "content": {}
+                    },
+                    "409": {
+                        "description": "Email in use",
+                        "content": {}
+                    }
                 }
-              }
             }
-          },
-          "responses": {
-            "201": {
-              "description": "Success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/RegistrationResponse"
-                  }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User authentication",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "login object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid credentials",
+                        "content": {}
+                    }
                 }
-              }
-            },
-            "400": {
-              "description": "Missing required name field",
-              "content": {}
-            },
-            "409": {
-              "description": "Email in use",
-              "content": {}
             }
-          }
-        }
-      },
-      "/auth/login": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User authentication",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "login object",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginRequest"
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User logout",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "content": {}
+                    }
                 }
-              }
             }
-          },
-          "responses": {
-            "200": {
-              "description": "Success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/LoginResponse"
-                  }
+        },
+        "/api/auth/google": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Google authentication",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Google login for registered users only! Please register!",
+                        "content": {}
+                    }
                 }
-              }
-            },
-            "400": {
-              "description": "Invalid credentials",
-              "content": {}
             }
-          }
-        }
-      },
-      "/auth/logout": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User logout",
-          "parameters": [],
-          "security": [{ "Bearer": [] }]
-          },
-        "responses": {
-          "204": {
-            "description": "No content",
-            "content": {}
-          }
-        }
-      },
-      "/auth/google": {
-        "get": {
-          "tags": ["Auth"],
-          "summary": "Google authentication",
-          "responses": {
-            "200": {
-              "description": "Success",
-              "content": {}
-            },
-            "401": {
-              "description": "Invalid credentials",
-              "content": {}
+        },
+        "/api/users/current": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get all info about current user",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCurrentUserInfo"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    }
+                }
             }
-          }
+        },
+        "/api/users/balance": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User's balance",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Balance object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Balance"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Balance"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Invalid user",
+                        "content": {}
+                    }
+                }
+            }
         }
-      }
     },
     "components": {
-      "schemas": {
-        "RegistrationRequest": {
-          "type": "object",
-          "required": ["email", "password"],
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "password": {
-              "type": "string",
-              "description": "User's password",
-              "example": "qwerty123"
-            }
-          }
-        },
-        "RegistrationResponse": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              },
-              "id": {
-                "type": "string",
-                "description": "User's id",
-                "example": "3214sfdgdfg45466"
-              },
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "Name"
-              },
-              "balance": {
-                "type": "number",
-                "description": "User's balance",
-                "example": "000.00"
-              },
-              "verifyToken": {
-                "type": "string",
-                "description": "User's verifyToken",
-                "example": "3214sfdgdfg45466"
-              },
-              "isSendEmailVerify": {
-                "type": "boolean",
-                "description": "send verify mail",
-                "example": "true"
-              }
-            }
-          },
-          "example": [
-            { 
-                "id": "sdfhfgjfhj456fghfj", 
-                "name": "user",
-                "email": "1@gmail.com", 
-                "balance": "null",
-                "isSendEmailVerify": "true"
-            }
-          ]
-        },
-          "LoginRequest": {
-            "type": "object",
-            "required": ["email", "password"],
-            "properties": {
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              },
-              "password": {
-                "type": "string",
-                "description": "User's password",
-                "example": "qwerty123"
-              }
-            }
-          },
-          "LoginResponse": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "description": "User's token",
-                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+        "schemas": {
+            "RegistrationRequest": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "qwerty123"
+                    }
                 }
-              }
             },
-          "example": [
-            { 
-              "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+            "RegistrationResponse": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "User's id",
+                        "example": "3214sfdgdfg45466"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "User's name",
+                        "example": "random name"
+                    },
+                    "balance": {
+                        "type": "number",
+                        "description": "User's balance",
+                        "example": "0"
+                    },
+                    "verifyToken": {
+                        "type": "string",
+                        "description": "User's verifyToken",
+                        "example": "3214sfdgdfg45466"
+                    },
+                    "isSendEmailVerify": {
+                        "type": "boolean",
+                        "description": "send verify mail",
+                        "example": "true"
+                    }
+                }
+            },
+            "LoginRequest": {
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "qwerty123"
+                    }
+                }
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "User's token",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+                    }
+                }
+            },
+            "GetCurrentUserInfo": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "User's name",
+                        "example": "random name"
+                    },
+                    "balance": {
+                        "type": "integer",
+                        "description": "User's balance",
+                        "example": "0"
+                    },
+                    "avatarURL": {
+                        "type": "http",
+                        "description": "User's avatar",
+                        "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=250"
+                    }
+                }
+            },
+            "Balance": {
+                "type": "object",
+                "properties": {
+                    "balance": {
+                        "type": "integer",
+                        "description": "User's balance",
+                        "example": 100
+                    }
+                }
             }
-          ]
-    }
-      },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
         }
-      }
     }
-  }
+}
