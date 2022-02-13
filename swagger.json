@@ -2,7 +2,7 @@
     "openapi": "3.0.1",
     "info": {
         "version": "1.0.0",
-        "title": "Kapusta",
+        "title": "Kapusta-backend",
         "description": "Showing off swagger-ui-express"
     },
     "consumes": [
@@ -78,23 +78,17 @@
         },
         "/api/auth/login": {
             "post": {
-                "tags": [
-                    "Auth"
-                ],
+                "tags": ["Auth"],
                 "summary": "User authentication",
                 "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
+                "security": [{ "Bearer": [] }],
                 "requestBody": {
-                    "description": "login object",
+                    "description": "Login object",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
+                                "$ref": "#/components/schemas/RegistrationRequest"
                             }
                         }
                     }
@@ -109,65 +103,52 @@
                                 }
                             }
                         }
-                    },
-                    "400": {
-                        "description": "Invalid credentials",
-                        "content": {}
-                    }
-                }
-            }
-        },
-        "/api/auth/logout": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "User logout",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No content",
-                        "content": {}
-                    }
-                }
-            }
-        },
-        "/api/auth/google": {
-            "get": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Google authentication",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {}
+
                     },
                     "401": {
-                        "description": "Google login for registered users only! Please register!",
+                        "description": "Not authorized",
                         "content": {}
                     }
                 }
             }
         },
-        "/api/users/current": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get all info about current user",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "responses": {
+      "/api/auth/logout": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "User logout",
+          "parameters": [],
+          "security": [{ "Bearer": [] }],
+          "responses": {
+            "204": {
+              "description": "No content",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/auth/google": {
+        "get": {
+          "tags": ["Auth"],
+          "summary": "Google authentication",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {}
+            },
+            "401": {
+              "description": "Google login for registered users only! Please register!",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/users/current": {
+          "get": {
+              "tags": ["User"],
+              "summary": "Get all info about current user",
+              "parameters": [],
+              "security": [{ "Bearer": [] }],
+              "responses": {
                     "200": {
                         "description": "Success",
                         "content": {
@@ -177,6 +158,7 @@
                                 }
                             }
                         }
+
                     },
                     "401": {
                         "description": "Not authorized",
@@ -184,22 +166,33 @@
                     }
                 }
             }
-        },
-        "/api/users/balance": {
-            "patch": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Update User's balance",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
+       },
+       "/api/users/balance": {
+        "patch": {
+            "tags": [
+                "User"
+            ],
+            "summary": "Update User's balance",
+            "parameters": [],
+            "security": [
+                {
+                    "Bearer": []
+                }
+            ],
+            "requestBody": {
+                "description": "Balance object",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Balance"
+                        }
                     }
-                ],
-                "requestBody": {
-                    "description": "Balance object",
-                    "required": true,
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Operation successful",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -233,8 +226,10 @@
                     }
                 }
             }
-        }
+      }
+      }
     },
+
     "components": {
         "schemas": {
             "RegistrationRequest": {
@@ -272,7 +267,7 @@
                     "name": {
                         "type": "string",
                         "description": "User's name",
-                        "example": "random name"
+                        "example": "name from email"
                     },
                     "balance": {
                         "type": "number",
@@ -313,6 +308,16 @@
             "LoginResponse": {
                 "type": "object",
                 "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "User's name",
+                        "example": "name from email"
+                    },
+                    "avatarURL": {
+                        "type": "http",
+                        "description": "User's avatar",
+                        "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=32"
+                    },
                     "token": {
                         "type": "string",
                         "description": "User's token",
@@ -331,7 +336,7 @@
                     "name": {
                         "type": "string",
                         "description": "User's name",
-                        "example": "random name"
+                        "example": "name from email"
                     },
                     "balance": {
                         "type": "integer",
@@ -341,7 +346,7 @@
                     "avatarURL": {
                         "type": "http",
                         "description": "User's avatar",
-                        "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=250"
+                        "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=32"
                     }
                 }
             },
@@ -364,14 +369,14 @@
                         "example": "success"
                     },
                     "code": {
-                        "type": "integer",
+                        "type": "number",
                         "description": "Status of request",
                         "example": "200"
                     },
                     "data": {
                         "type": "integer",
                         "description": "User`s Balance",
-                        "example": "2022"
+                        "example": 2022
                     }
                 }
             }
@@ -385,3 +390,7 @@
         }
     }
 }
+
+
+
+

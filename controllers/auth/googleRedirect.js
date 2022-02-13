@@ -29,14 +29,13 @@ export const googleRedirect = async (req, res) => {
         Authorization: `Bearer ${tokenData.data.access_token}`,
       },
     });
-    // userData.data.email
 
   const user = await authService.getUserGoogle(userData.data.email);
   if (!user) {
     return res.status(HttpCode.UNAUTORIZED).json({
       status: 'error',
       code: HttpCode.UNAUTORIZED,
-      message: 'Invalid credentials',
+      message: 'Google login for registered users only! Please register!',
     });
   }
   const token = authService.getToken(user);

@@ -1,17 +1,20 @@
-import express from "express";
+import { Router } from 'express';
 import {
-    getTransactions,
-    createTransaction,
-    removeTransaction,
-} from "../../../controllers/transactions";
-import guard from '../../../middlewares/guard'
+  getTransactions,
+  createTransaction,
+  removeTransaction,
+  getReportByMonthForCategories,
+} from '../../../controllers/transactions';
+import guard from '../../../middlewares/guard/guard';
 
-const transactionsRouter = new express.Router()
+const router = new Router();
 
-transactionsRouter.get('/', guard, getTransactions)
+router.get('/', guard, getTransactions);
 
-transactionsRouter.post('/', guard, createTransaction)
+router.post('/', guard, createTransaction);
 
-transactionsRouter.delete('/:id', guard, removeTransaction)
+router.delete('/:id', guard, removeTransaction);
 
-export default transactionsRouter
+router.get('/report-category-by-month', guard, getReportByMonthForCategories);
+
+export default router;
