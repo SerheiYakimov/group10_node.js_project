@@ -203,7 +203,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Balance"
+                                "$ref": "#/components/schemas/BalanceRequest"
                             }
                         }
                     }
@@ -214,7 +214,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Balance"
+                                    "$ref": "#/components/schemas/BalanceResponse"
                                 }
                             }
                         }
@@ -345,13 +345,33 @@
                     }
                 }
             },
-            "Balance": {
+            "BalanceRequest": {
                 "type": "object",
                 "properties": {
                     "balance": {
                         "type": "integer",
                         "description": "User's balance",
                         "example": 100
+                    }
+                }
+            },
+            "BalanceResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "integer",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "integer",
+                        "description": "User`s Balance",
+                        "example": "2022"
                     }
                 }
             }
