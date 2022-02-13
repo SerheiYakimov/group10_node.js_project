@@ -76,66 +76,23 @@
                 }
             }
         },
-        "/api/auth/login": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "User authentication",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "requestBody": {
-                    "description": "login object",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/LoginResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid credentials",
-                        "content": {}
-                    }
+      "/api/auth/login": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "User authentication",
+          "parameters": [],
+          "security": [{ "Bearer": [] }],
+          "requestBody": {
+            "description": "login object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequest"
                 }
+              }
             }
-        },
-        "/api/auth/logout": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "User logout",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No content",
-                        "content": {}
-                    }
-                }
-            }
+          }
         },
         "/api/auth/google": {
             "get": {
@@ -232,9 +189,65 @@
                         "content": {}
                     }
                 }
+          }
+        }
+      },
+      "/api/auth/logout": {
+        "post": {
+          "tags": ["Auth"],
+          "summary": "User logout",
+          "parameters": [],
+          "security": [{ "Bearer": [] }],
+          "responses": {
+            "204": {
+              "description": "No content",
+              "content": {}
+            }
+          }
+        }
+      },
+      "/api/auth/google": {
+        "get": {
+          "tags": ["Auth"],
+          "summary": "Google authentication",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {}
+            },
+            "401": {
+              "description": "Google login for registered users only! Please register!",
+              "content": {}
             }
         }
-    },
+      },
+      "/api/users/current": {
+          "get": {
+              "tags": ["User"],
+              "summary": "Get all info about current user",
+              "parameters": [],
+              "security": [{ "Bearer": [] }],
+              "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCurrentUserInfo"
+                                }
+                            }
+                        }
+
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    }
+                }
+            }
+        }
+      },
+
     "components": {
         "schemas": {
             "RegistrationRequest": {
@@ -363,5 +376,9 @@
                 "bearerFormat": "JWT"
             }
         }
+
+      }
     }
 }
+
+

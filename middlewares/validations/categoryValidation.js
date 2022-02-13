@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
 const categorySchema = Joi.object({
-  category: Joi.String().required(),
-  alias: Joi.String().required(),
-  icon: Joi.String().required(),
+  category: Joi.string().required(),
+  alias: Joi.string().required(),
+  icon: Joi.string().required(),
 });
 
 export const validateCategory = async (req, res, next) => {
