@@ -2,7 +2,7 @@
     "openapi": "3.0.1",
     "info": {
         "version": "1.0.0",
-        "title": "Kapusta",
+        "title": "Kapusta-backend",
         "description": "Showing off swagger-ui-express"
     },
     "consumes": [
@@ -76,64 +76,34 @@
                 }
             }
         },
-      "/api/auth/login": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User authentication",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "requestBody": {
-            "description": "login object",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginRequest"
-                }
-              }
-            }
-          }
-        },
-        "/api/auth/google": {
-            "get": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Google authentication",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {}
-                    },
-                    "401": {
-                        "description": "Google login for registered users only! Please register!",
-                        "content": {}
-                    }
-                }
-            }
-        },
-        "/api/users/current": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get all info about current user",
+        "/api/auth/login": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "User authentication",
                 "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "Login object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistrationRequest"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/GetCurrentUserInfo"
+                                    "$ref": "#/components/schemas/LoginResponse"
                                 }
                             }
                         }
+
                     },
                     "401": {
                         "description": "Not authorized",
@@ -142,56 +112,6 @@
                 }
             }
         },
-        "/api/users/balance": {
-            "patch": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "Update User's balance",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "requestBody": {
-                    "description": "Balance object",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Balance"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Operation successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Balance"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "content": {}
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {}
-                    },
-                    "404": {
-                        "description": "Invalid user",
-                        "content": {}
-                    }
-                }
-          }
-        }
-      },
       "/api/auth/logout": {
         "post": {
           "tags": ["Auth"],
@@ -219,6 +139,7 @@
               "description": "Google login for registered users only! Please register!",
               "content": {}
             }
+          }
         }
       },
       "/api/users/current": {
@@ -245,8 +166,57 @@
                     }
                 }
             }
-        }
-      },
+       },
+       "/api/users/balance": {
+        "patch": {
+            "tags": [
+                "User"
+            ],
+            "summary": "Update User's balance",
+            "parameters": [],
+            "security": [
+                {
+                    "Bearer": []
+                }
+            ],
+            "requestBody": {
+                "description": "Balance object",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Balance"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Operation successful",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Balance"
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Bad request",
+                    "content": {}
+                },
+                "401": {
+                    "description": "Unauthorized",
+                    "content": {}
+                },
+                "404": {
+                    "description": "Invalid user",
+                    "content": {}
+                }
+            }
+      }
+      }
+    },
 
     "components": {
         "schemas": {
@@ -285,7 +255,7 @@
                     "name": {
                         "type": "string",
                         "description": "User's name",
-                        "example": "random name"
+                        "example": "name from email"
                     },
                     "balance": {
                         "type": "number",
@@ -326,6 +296,16 @@
             "LoginResponse": {
                 "type": "object",
                 "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "User's name",
+                        "example": "name from email"
+                    },
+                    "avatarURL": {
+                        "type": "http",
+                        "description": "User's avatar",
+                        "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=32"
+                    },
                     "token": {
                         "type": "string",
                         "description": "User's token",
@@ -344,7 +324,7 @@
                     "name": {
                         "type": "string",
                         "description": "User's name",
-                        "example": "random name"
+                        "example": "name from email"
                     },
                     "balance": {
                         "type": "integer",
@@ -354,7 +334,7 @@
                     "avatarURL": {
                         "type": "http",
                         "description": "User's avatar",
-                        "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=250"
+                        "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=32"
                     }
                 }
             },
@@ -376,9 +356,9 @@
                 "bearerFormat": "JWT"
             }
         }
-
-      }
     }
 }
+
+
 
 
