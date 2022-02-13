@@ -6,6 +6,7 @@ import Category from '../../models/category';
 
 export const createTransaction = async (req, res) => {
   const { _id, balance } = req.user;
+
   const {
     category,
     subcategory,
@@ -16,6 +17,16 @@ export const createTransaction = async (req, res) => {
     month,
     day,
   } = req.body;
+
+  // {
+  //   "category": "алкоголь", - как в category.json
+  //   "subcategory": "ром",
+  //   "sum": "9000",
+  //   "transactionType": "расход", // "доход",
+  //   "year": "2022",
+  //   "month": "02",
+  //   "day": "13"
+  // }
 
   const categoryData = await Category.findOne({ category });
 
@@ -37,12 +48,13 @@ export const createTransaction = async (req, res) => {
       code: HttpCode.BAD_REQUEST,
       message: 'Insufficient funds on the balance sheet',
     });
+    return;
   }
 
   const newTransaction = {
     category,
     subcategory,
-    sum,
+    sum: Number(sum),
     transactionType,
     createdDate,
     alias,

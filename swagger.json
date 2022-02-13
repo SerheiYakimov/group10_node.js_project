@@ -247,22 +247,34 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Balance"
+                                "$ref": "#/components/schemas/BalanceRequest"
                             }
                         }
                     }
                 },
-                "400": {
-                    "description": "Bad request",
-                    "content": {}
-                },
-                "401": {
-                    "description": "Unauthorized",
-                    "content": {}
-                },
-                "404": {
-                    "description": "Invalid user",
-                    "content": {}
+                "responses": {
+                    "200": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BalanceResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Invalid user",
+                        "content": {}
+                    }
                 }
             }
       }
@@ -389,16 +401,6 @@
                     }
                 }
             },
-            "Balance": {
-                "type": "object",
-                "properties": {
-                    "balance": {
-                        "type": "integer",
-                        "description": "User's balance",
-                        "example": 100
-                    }
-                }
-            },
             "VerifyRequest": {
                 "type": "object",
                 "required": [
@@ -409,6 +411,36 @@
                         "type": "string",
                         "description": "User's email",
                         "format": "email"
+                    }
+                }
+            },
+            "BalanceRequest": {
+                "type": "object",
+                "properties": {
+                    "balance": {
+                        "type": "integer",
+                        "description": "User's balance",
+                        "example": 100
+                    }
+                }
+            },
+            "BalanceResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "integer",
+                        "description": "User`s Balance",
+                        "example": 2022
                     }
                 }
             }

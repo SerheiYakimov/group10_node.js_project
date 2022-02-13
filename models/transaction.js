@@ -12,7 +12,7 @@ const transactionSchema = new Schema(
       required: true,
     },
     sum: {
-      type: String,
+      type: Number,
       required: [true, 'Set sum of transaction'],
     },
     date: {
@@ -32,6 +32,10 @@ const transactionSchema = new Schema(
       default: false, // expenses - false, income - true
     },
     icon: {
+      type: String,
+      required: true,
+    },
+    alias: {
       type: String,
       required: true,
     },

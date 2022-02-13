@@ -2,19 +2,20 @@ import { HttpCode } from '../../lib/constants';
 import repositoryTransactions from '../../repository/transactions';
 
 export const removeTransaction = async (req, res, next) => {
-  const { transactionId } = req.params;
+  const { id } = req.params;
   const { _id, balance } = req.user;
 
   const transactions = await repositoryTransactions.removeTransaction(
-    transactionId,
+    id,
     _id,
     balance,
   );
+
   if (transactions === 'NOT_FOUND') {
     return res.status(HttpCode.NOT_FOUND).json({
       status: 'error',
       code: HttpCode.NOT_FOUND,
-      message: `Transaction ${transactionId} not found`,
+      message: `Transaction ${id} not found`,
     });
   }
   if (transactions === 'BAD_REQUEST') {
