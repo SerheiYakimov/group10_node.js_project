@@ -6,6 +6,7 @@ import {
   getReportByMonthForCategories,
   getReportByMonthForSubcategories,
   getReportBySixMonth,
+  geTotalSumByMonth,
 } from '../../../controllers/transactions';
 import guard from '../../../middlewares/guard/guard';
 import errorWrapper from '../../../middlewares/errorWrapper';
@@ -25,5 +26,6 @@ router.get(
   getReportByMonthForSubcategories,
 );
 router.get('/report-by-six-month', guard, getReportBySixMonth);
+router.get('/report-sum-by-month', guard, geTotalSumByMonth);
 
 export default router;
