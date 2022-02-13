@@ -45,18 +45,22 @@ const transactionsList = async (_id, { transactionType }) => {
 // };
 
 const removeTransaction = async (transactionId, userId, balance) => {
+  console.log('tyt', transactionId, userId, balance);
   const transaction = await Transaction.findOneAndRemove({
     _id: transactionId,
     owner: userId,
   });
+
   if (!transaction) return 'NOT_FOUND';
 
   const { income, sum } = transaction;
-  const newBalance = income === true ? balance - sum : balance + sum;
+  const newBalance = income === true ? balance - sum : balance + Number(sum);
+
+  console.log(newBalance);
 
   if (newBalance < 0) return 'BAD_REQUEST';
 
-  await User.findByIdAndUpdate({ userId }, { balance: newBalance });
+  await User.findByIdAndUpdate({ _id: userId }, { balance: newBalance });
 
   return newBalance;
 };

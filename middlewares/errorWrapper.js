@@ -1,10 +1,11 @@
-const errorWrapper = async (req, res, next) => {
-  try {
-    const result = await fn(req, res, next);
-    return result;
-  } catch (err) {
-    next(err);
-  }
+const errorWrapper = ctrl => {
+  return async (req, res, next) => {
+    try {
+      await ctrl(req, res, next);
+    } catch (error) {
+      next(error);
+    }
+  };
 };
 
 export default errorWrapper;

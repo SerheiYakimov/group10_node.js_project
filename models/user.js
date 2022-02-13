@@ -24,7 +24,7 @@ const userSchema = new Schema({
     },
     balance: {
         type: Number,
-        default: null,
+        default: 0,
         },
     token: {
         type: String,
@@ -33,7 +33,7 @@ const userSchema = new Schema({
     avatarURL: {
         type: String,
         default: function () {
-            return gravatar.url(this.email, { s: '250' }, true);
+            return gravatar.url(this.email, { s: '32' }, true);
         }
     },
     verify: {

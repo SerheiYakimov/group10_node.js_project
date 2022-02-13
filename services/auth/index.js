@@ -47,6 +47,15 @@ class AuthService {
     async setToken(id, token) {
         await Users.updateToken(id, token);
     }
- }
+
+    async getBalance(userId) {
+        const { balance } = await UsersRepository.findById(userId);
+        return balance;
+    }
+
+    async setBalance(userId, balance) {
+        return await UsersRepository.updateBalance(userId, balance);
+    }
+}
 
 export default new AuthService();
