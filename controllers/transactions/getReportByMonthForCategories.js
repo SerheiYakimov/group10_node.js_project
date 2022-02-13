@@ -10,6 +10,7 @@ export const getReportByMonthForCategories = async (req, res) => {
   const { date } = req.body;
   // date = '2022-02'
   let { isIncome } = req.body;
+
   // isIncome = 'true' or 'false'
 
   if (isIncome === 'true') {
@@ -78,8 +79,6 @@ export const getReportByMonthForCategories = async (req, res) => {
   const resalt = await Transaction.aggregate([
     sortTransactionByMonthForCategories,
   ]);
-
-  console.log(resalt);
 
   res.json({
     status: 'success',
