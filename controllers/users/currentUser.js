@@ -11,7 +11,7 @@ export const currentUser = async (req, res, _next) => {
         message: 'Not authorized',
         })  
     }
-    
+
     const name = req.user.email;
     const currentName = name.split('@')[0];
 
@@ -23,7 +23,7 @@ export const currentUser = async (req, res, _next) => {
             email,
             name: currentName,
             balance,
-            avatarURL
+            avatarURL,
         } 
       },
     });

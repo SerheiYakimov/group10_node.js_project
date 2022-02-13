@@ -29,7 +29,7 @@ export const registration = async (req, res, next) => {
       userData.name,
       userData.verifyToken,
     )
-    delete userData.verifyToken;
+    // delete userData.verifyToken;
 
     res.status(HttpCode.CREATED).json(
         {
