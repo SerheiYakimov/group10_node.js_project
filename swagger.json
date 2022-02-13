@@ -38,11 +38,6 @@
                 ],
                 "summary": "User registration",
                 "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
                 "requestBody": {
                     "description": "Registration's object",
                     "required": true,
@@ -81,7 +76,6 @@
                 "tags": ["Auth"],
                 "summary": "User authentication",
                 "parameters": [],
-                "security": [{ "Bearer": [] }],
                 "requestBody": {
                     "description": "Login object",
                     "required": true,
@@ -162,6 +156,63 @@
                     },
                     "401": {
                         "description": "Not authorized",
+                        "content": {}
+                    }
+                }
+            }
+       },
+       "/api/users/verify/verifyToken": {
+           "get": {
+               "tags": ["User"],
+               "summary": "User verify",
+               "parameters": [
+                   {
+                    "in": "path",
+                    "name": "verifyToken",
+                    "required": true,
+                    "type": "string",
+                    "description":"User's verifyToken"
+                   }
+                ],
+               "responses": {
+                   "200": {
+                       "description": "Success",
+                       "content": {}
+                   },
+                   "400": {
+                       "description": "Invalid token",
+                       "content": {}
+                   }
+               }
+           }
+       },
+       "/api/users/verify": {
+            "post": {
+                "tags": ["User"],
+                "summary": "User authentication",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerifyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Verification email sent",
+                        "content": {}
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User with email not found",
                         "content": {}
                     }
                 }
@@ -345,6 +396,19 @@
                         "type": "integer",
                         "description": "User's balance",
                         "example": 100
+                    }
+                }
+            },
+            "VerifyRequest": {
+                "type": "object",
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "format": "email"
                     }
                 }
             }

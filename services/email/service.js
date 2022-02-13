@@ -34,7 +34,7 @@ class EmailService {
                     button: {
                         color: '#ff751d',
                         text: 'Подтвердить',
-                        link: `${this.link}api/users/verify/${verifyToken}}`,
+                        link: `${this.link}api/users/verify/${verifyToken}`,
                     }
                 },
                 outro: 'Нужна помощь или есть вопросы? Просто ответьте на это письмо, мы будем рады помочь'
