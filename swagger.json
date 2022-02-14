@@ -78,10 +78,16 @@
         },
         "/api/auth/login": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "User authentication",
                 "parameters": [],
-                "security": [{ "Bearer": [] }],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "requestBody": {
                     "description": "Login object",
                     "required": true,
@@ -103,7 +109,6 @@
                                 }
                             }
                         }
-
                     },
                     "401": {
                         "description": "Not authorized",
@@ -112,43 +117,57 @@
                 }
             }
         },
-      "/api/auth/logout": {
-        "post": {
-          "tags": ["Auth"],
-          "summary": "User logout",
-          "parameters": [],
-          "security": [{ "Bearer": [] }],
-          "responses": {
-            "204": {
-              "description": "No content",
-              "content": {}
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User logout",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "content": {}
+                    }
+                }
             }
-          }
-        }
-      },
-      "/api/auth/google": {
-        "get": {
-          "tags": ["Auth"],
-          "summary": "Google authentication",
-          "responses": {
-            "200": {
-              "description": "Success",
-              "content": {}
-            },
-            "401": {
-              "description": "Google login for registered users only! Please register!",
-              "content": {}
+        },
+        "/api/auth/google": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Google authentication",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Google login for registered users only! Please register!",
+                        "content": {}
+                    }
+                }
             }
-          }
-        }
-      },
-      "/api/users/current": {
-          "get": {
-              "tags": ["User"],
-              "summary": "Get all info about current user",
-              "parameters": [],
-              "security": [{ "Bearer": [] }],
-              "responses": {
+        },
+        "/api/users/current": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get all info about current user",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
                     "200": {
                         "description": "Success",
                         "content": {
@@ -158,7 +177,6 @@
                                 }
                             }
                         }
-
                     },
                     "401": {
                         "description": "Not authorized",
@@ -166,33 +184,22 @@
                     }
                 }
             }
-       },
-       "/api/users/balance": {
-        "patch": {
-            "tags": [
-                "User"
-            ],
-            "summary": "Update User's balance",
-            "parameters": [],
-            "security": [
-                {
-                    "Bearer": []
-                }
-            ],
-            "requestBody": {
-                "description": "Balance object",
-                "required": true,
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/Balance"
-                        }
+        },
+        "/api/users/balance": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User's balance",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
                     }
-                }
-            },
-            "responses": {
-                "200": {
-                    "description": "Operation successful",
+                ],
+                "requestBody": {
+                    "description": "Balance object",
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
@@ -226,10 +233,210 @@
                     }
                 }
             }
-      }
-      }
+        },
+        "/api/transactions": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "User's transactions",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Transaction's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TransactionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AllTransactionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "User's transactions",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "requestBody": {
+                    "description": "Transaction's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TransactionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Not authorized",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "api/transactions/{transactionId}": {
+            "delete": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Delete transaction",
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "type": "string",
+                        "description": "Transaction's id",
+                        "required": true,
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeleteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Invalid user",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "api/transactions/month-report-categories": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "User's month transactions",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MonthResponseCategories"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "api/transactions/month-report-subcategories": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "User's month transactions",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MonthResponseSubCategories"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    }
+                }
+            }
+        }
     },
-
     "components": {
         "schemas": {
             "RegistrationRequest": {
@@ -379,6 +586,234 @@
                         "example": 2022
                     }
                 }
+            },
+            "TransactionRequest": {
+                "type": "object",
+                "required": [
+                    "category",
+                    "subcategory",
+                    "sum",
+                    "date",
+                    "transactionType"
+                ],
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "description": "Transaction category",
+                        "example": "алкоголь"
+                    },
+                    "subcategory": {
+                        "type": "string",
+                        "description": "Transaction subcategory",
+                        "example": "вино"
+                    },
+                    "sum": {
+                        "type": "number",
+                        "description": "Transaction sum",
+                        "example": 159
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "Transaction date",
+                        "example": "11.02.2022"
+                    },
+                    "transactionType": {
+                        "type": "boolean",
+                        "description": "Transaction type",
+                        "example": false
+                    }
+                }
+            },
+            "TransactionResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "transaction": {
+                                "type": "object",
+                                "properties": {
+                                    "category": {
+                                        "type": "string",
+                                        "description": "Transaction category",
+                                        "example": "алкоголь"
+                                    },
+                                    "subcategory": {
+                                        "type": "string",
+                                        "description": "Transaction description ",
+                                        "example": "вино"
+                                    },
+                                    "sum": {
+                                        "type": "string",
+                                        "description": "Transaction sum",
+                                        "example": "222"
+                                    },
+                                    "date": {
+                                        "type": "object",
+                                        "description": "Transaction date",
+                                        "example": "22.02.2022"
+                                    },
+                                    "transactionType": {
+                                        "type": "boolean",
+                                        "description": "Transaction type",
+                                        "example": false
+                                    },
+                                    "owner": {
+                                        "type": "string",
+                                        "description": "Owner id",
+                                        "example": "190127776c014907c5f14238"
+                                    },
+                                    "id": {
+                                        "type": "string",
+                                        "description": "Transaction id",
+                                        "example": "3456c0b5f7ad766658c74d23"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "AllTransactionsResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "transactions": {
+                                "type": "array",
+                                "example": [
+                                    {
+                                        "category": "алкоголь",
+                                        "subcategory": "вино",
+                                        "sum": 159,
+                                        "date": "11.02.2022",
+                                        "transactionType": false,
+                                        "owner": {
+                                            "name": "Guest",
+                                            "email": "guest@gmail.com",
+                                            "id": "456234888e043907c7f16568"
+                                        },
+                                        "year": 2022,
+                                        "month": 2,
+                                        "day": 22,
+                                        "createdAt": "2022-02-22T22:22:22.222Z",
+                                        "updatedAt": "2022-02-22T22:22:22.222Z",
+                                        "id": "4765b0d5f4ad749878c47c46"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "DeleteResponse": {
+                "type": "object",
+                "properties": {
+                    "newBalance": {
+                        "type": "integer",
+                        "description": "User's new balance"
+                    }
+                }
+            },
+            "MonthResponseCategories": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "result": {
+                                "type": "array",
+                                "example": [
+                                    {
+                                        "totalSum": 5600,
+                                        "icon": "#icon-alcohol",
+                                        "id": "alkohol",
+                                        "category_name": "алкоголь",
+                                        "category_alias": "alkohol"
+                                    },
+                                    {
+                                        "totalSum": 400,
+                                        "icon": "#icon-products",
+                                        "id": "products",
+                                        "category_name": "продукты",
+                                        "category_alias": "products"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "MonthResponseSubCategories": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "result": {
+                                "type": "array",
+                                "example": [
+                                    {
+                                        "_id": "ром",
+                                        "totalSum": 2300,
+                                        "count": 2
+                                    },
+                                    {
+                                        "_id": "вино",
+                                        "totalSum": 1800,
+                                        "count": 4
+                                    },
+                                    {
+                                        "_id": "тоник",
+                                        "totalSum": 900,
+                                        "count": 3
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
             }
         },
         "securitySchemes": {
@@ -390,7 +825,3 @@
         }
     }
 }
-
-
-
-
