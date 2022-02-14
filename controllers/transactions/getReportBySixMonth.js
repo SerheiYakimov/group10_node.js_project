@@ -89,13 +89,11 @@ export const getReportBySixMonth = async (req, res) => {
     },
   ];
 
-  const resalt = await Transaction.aggregate([sortTransactionBysixMonth]);
-
-  console.log(resalt);
+  const result = await Transaction.aggregate([sortTransactionBysixMonth]);
 
   res.json({
     status: 'success',
     code: HttpCode.OK,
-    data: { resalt },
+    data: { result },
   });
 };

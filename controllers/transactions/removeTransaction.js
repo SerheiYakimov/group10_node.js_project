@@ -11,20 +11,6 @@ export const removeTransaction = async (req, res, next) => {
     balance,
   );
 
-  if (transactions === 'NOT_FOUND') {
-    return res.status(HttpCode.NOT_FOUND).json({
-      status: 'error',
-      code: HttpCode.NOT_FOUND,
-      message: `Transaction ${id} not found`,
-    });
-  }
-  if (transactions === 'BAD_REQUEST') {
-    return res.status(HttpCode.BAD_REQUEST).json({
-      status: 'error',
-      code: HttpCode.BAD_REQUEST,
-      message: 'Insufficient funds on the balance sheet',
-    });
-  }
   res.status(HttpCode.OK).json({
     status: 'success',
     code: HttpCode.OK,

@@ -1,5 +1,8 @@
+import pkg from 'http-errors';
 import { HttpCode } from '../../lib/constants';
 import repositoryTransactions from '../../repository/transactions';
+
+const { NotFound } = pkg;
 
 export const getTransactions = async (req, res) => {
   const { _id } = req.user;
@@ -9,11 +12,9 @@ export const getTransactions = async (req, res) => {
     req.query,
   );
   if (!transactions) {
-    res.status(HttpCode.NOT_FOUND).json({
-      status: 'error',
-      code: HttpCode.NOT_FOUND,
-      message: 'Transactions could not be found',
-    });
+    {
+      throw new NotFound('Transactions could not be found');
+    }
   }
   res.status(HttpCode.OK).json({
     status: 'success',

@@ -1,5 +1,8 @@
+import pkg from 'http-errors';
 import Transaction from '../models/transaction';
 import User from '../models/user';
+
+const { BadRequest, NotFound } = pkg;
 
 const transactionsList = async (_id, { transactionType }) => {
   const transactions = transactionType
@@ -45,20 +48,21 @@ const transactionsList = async (_id, { transactionType }) => {
 // };
 
 const removeTransaction = async (transactionId, userId, balance) => {
-  console.log('tyt', transactionId, userId, balance);
   const transaction = await Transaction.findOneAndRemove({
     _id: transactionId,
     owner: userId,
   });
 
-  if (!transaction) return 'NOT_FOUND';
+  if (!transaction) {
+    throw new NotFound(`Transaction ${transactionId} is not found`);
+  }
 
   const { income, sum } = transaction;
   const newBalance = income === true ? balance - sum : balance + Number(sum);
 
-  console.log(newBalance);
-
-  if (newBalance < 0) return 'BAD_REQUEST';
+  if (newBalance < 0) {
+    throw new BadRequest('Insufficient funds on the balance sheet');
+  }
 
   await User.findByIdAndUpdate({ _id: userId }, { balance: newBalance });
 

@@ -1,8 +1,11 @@
+import pkg from 'http-errors';
 import { HttpCode } from '../../lib/constants';
 // import repositoryTransactions from '../../repository/transactions';
 import Transaction from '../../models/transaction';
 import User from '../../models/user';
 import Category from '../../models/category';
+
+const { BadRequest, NotFound } = pkg;
 
 export const createTransaction = async (req, res) => {
   const { _id, balance } = req.user;
@@ -31,11 +34,7 @@ export const createTransaction = async (req, res) => {
   const categoryData = await Category.findOne({ category });
 
   if (!categoryData) {
-    res.status(HttpCode.NOT_FOUND).json({
-      status: 'error',
-      code: HttpCode.NOT_FOUND,
-      message: 'Category is not found',
-    });
+    throw new NotFound(`Category "${category}" is not found`);
   }
 
   const { alias, icon, income } = categoryData;
@@ -43,12 +42,7 @@ export const createTransaction = async (req, res) => {
   const newBalance = income === true ? balance + sum : balance - sum;
 
   if (newBalance < 0) {
-    res.status(HttpCode.BAD_REQUEST).json({
-      status: 'error',
-      code: HttpCode.BAD_REQUEST,
-      message: 'Insufficient funds on the balance sheet',
-    });
-    return;
+    throw new BadRequest('Insufficient funds on the balance sheet');
   }
 
   const newTransaction = {
