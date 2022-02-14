@@ -76,13 +76,13 @@ export const getReportByMonthForCategories = async (req, res) => {
     },
   ];
 
-  const resalt = await Transaction.aggregate([
+  const result = await Transaction.aggregate([
     sortTransactionByMonthForCategories,
   ]);
 
   res.json({
     status: 'success',
     code: HttpCode.OK,
-    data: { resalt },
+    data: { result },
   });
 };

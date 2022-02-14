@@ -48,13 +48,11 @@ export const geTotalSumByMonth = async (req, res) => {
     },
   ];
 
-  const resalt = await Transaction.aggregate([sortTransactionByTotalSumMonth]);
-
-  console.log(resalt);
+  const result = await Transaction.aggregate([sortTransactionByTotalSumMonth]);
 
   res.json({
     status: 'success',
     code: HttpCode.OK,
-    data: { resalt },
+    data: { result },
   });
 };
