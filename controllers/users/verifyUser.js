@@ -1,20 +1,16 @@
-import { HttpCode } from "../../lib/constants";
+import pkg from 'http-errors';
 import repositoryUsers from '../../repository/users';
+
+const { BadRequest } = pkg;
 
 export const verifyUser = async (req, res, next) => {
   const verifyToken = req.params.verifyToken;
   console.log(verifyToken);
   const userFromToken = await repositoryUsers.findByVerifyToken(verifyToken);
-  if (userFromToken) {
-    await repositoryUsers.updateVerify(userFromToken.id, true);
-    return res.redirect(`${process.env.FRONTEND_URL}`)
+  if (!userFromToken) {
+    throw new BadRequest('Invalid token');
   }
-  return res
-    .status(HttpCode.BAD_REQUEST)
-    .json({
-      status: 'success',
-      code: HttpCode.BAD_REQUEST,
-      data: { message: 'Invalid token' },
-    });  
-}
 
+  await repositoryUsers.updateVerify(userFromToken.id, true);
+  return res.redirect(`${process.env.FRONTEND_URL}`);
+};

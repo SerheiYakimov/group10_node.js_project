@@ -13,19 +13,23 @@ import errorWrapper from '../../../middlewares/errorWrapper';
 
 const router = new Router();
 
-router.get('/', guard, getTransactions);
+router.get('/', guard, errorWrapper(getTransactions));
 
 router.post('/', guard, errorWrapper(createTransaction));
 
-router.delete('/:id', guard, removeTransaction);
+router.delete('/:id', guard, errorWrapper(removeTransaction));
 
-router.get('/report-category-by-month', guard, getReportByMonthForCategories);
+router.get(
+  '/report-category-by-month',
+  guard,
+  errorWrapper(getReportByMonthForCategories),
+);
 router.get(
   '/report-subcategory-by-month',
   guard,
-  getReportByMonthForSubcategories,
+  errorWrapper(getReportByMonthForSubcategories),
 );
-router.get('/report-by-six-month', guard, getReportBySixMonth);
-router.get('/report-sum-by-month', guard, geTotalSumByMonth);
+router.get('/report-by-six-month', guard, errorWrapper(getReportBySixMonth));
+router.get('/report-sum-by-month', guard, errorWrapper(geTotalSumByMonth));
 
 export default router;
