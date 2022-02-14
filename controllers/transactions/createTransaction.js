@@ -21,6 +21,8 @@ export const createTransaction = async (req, res) => {
     day,
   } = req.body;
 
+  const sumTransaction = Number(sum);
+
   // {
   //   "category": "алкоголь", - как в category.json
   //   "subcategory": "ром",
@@ -39,7 +41,10 @@ export const createTransaction = async (req, res) => {
 
   const { alias, icon, income } = categoryData;
 
-  const newBalance = income === true ? balance + sum : balance - sum;
+  console.log(typeof income);
+
+  const newBalance =
+    income === 'true' ? balance + sumTransaction : balance - sumTransaction;
 
   if (newBalance < 0) {
     throw new BadRequest('Insufficient funds on the balance sheet');
@@ -48,7 +53,7 @@ export const createTransaction = async (req, res) => {
   const newTransaction = {
     category,
     subcategory,
-    sum: Number(sum),
+    sum: sumTransaction,
     transactionType,
     createdDate,
     alias,
