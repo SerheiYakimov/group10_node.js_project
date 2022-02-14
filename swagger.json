@@ -568,7 +568,7 @@
                         "description": "User's name",
                         "example": "name from email"
                     },
-                    "avatarURL": {
+                    "avatar": {
                         "type": "http",
                         "description": "User's avatar",
                         "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=32"
@@ -598,7 +598,7 @@
                         "description": "User's balance",
                         "example": "0"
                     },
-                    "avatarURL": {
+                    "avatar": {
                         "type": "http",
                         "description": "User's avatar",
                         "example": "https://s.gravatar.com/avatar/c4140e937ba04cbcc75140e7e43b688f?s=32"
