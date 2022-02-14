@@ -1,26 +1,22 @@
 import mongoose from 'mongoose';
 import Transaction from '../../models/transaction';
+import Category from '../../models/category';
 import { HttpCode } from '../../lib/constants';
 
 const ObjectId = mongoose.Types.ObjectId;
 
-export const getReportByMonthForCategories = async (req, res) => {
+export const getReportByMonthForSubcategories = async (req, res) => {
   const { _id } = req.user;
+  console.log(_id);
   const id = _id.toString();
-  const { date } = req.body;
-  // date = '2022-02'
-  let { isIncome } = req.body;
+  const { date, category } = req.body;
+  // date = '2022-02', category = "алкоголь"
 
-  // isIncome = 'true' or 'false'
+  const categoryData = await Category.findOne({ category });
+  const { alias, income } = categoryData;
+  console.log(alias, income);
 
-  if (isIncome === 'true') {
-    isIncome = true;
-  }
-  if (isIncome === 'false') {
-    isIncome = false;
-  }
-
-  const sortTransactionByMonthForCategories = [
+  const sortTransactionByMonthForSubcategories = [
     {
       $project: {
         reportPeriod: {
@@ -40,22 +36,20 @@ export const getReportByMonthForCategories = async (req, res) => {
     },
     {
       $match: {
-        income: isIncome,
-        owner: ObjectId(id),
+        income: false,
+        alias: alias,
         reportPeriod: date,
+        owner: ObjectId(id),
       },
     },
     {
       $group: {
-        _id: '$category',
+        _id: '$subcategory',
         totalSum: {
           $sum: '$sum',
         },
-        alias: {
-          $first: '$alias',
-        },
-        icon: {
-          $first: '$icon',
+        count: {
+          $sum: 1,
         },
       },
     },
@@ -64,20 +58,10 @@ export const getReportByMonthForCategories = async (req, res) => {
         totalSum: -1,
       },
     },
-    {
-      $project: {
-        id: '$alias',
-        icon: 1,
-        totalSum: 1,
-        category_name: '$_id',
-        category_alias: '$alias',
-        _id: 0,
-      },
-    },
   ];
 
   const resalt = await Transaction.aggregate([
-    sortTransactionByMonthForCategories,
+    sortTransactionByMonthForSubcategories,
   ]);
 
   res.json({

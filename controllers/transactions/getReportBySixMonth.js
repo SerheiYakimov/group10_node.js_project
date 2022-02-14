@@ -4,13 +4,12 @@ import { HttpCode } from '../../lib/constants';
 
 const ObjectId = mongoose.Types.ObjectId;
 
-export const getReportByMonthForCategories = async (req, res) => {
+export const getReportBySixMonth = async (req, res) => {
   const { _id } = req.user;
   const id = _id.toString();
   const { date } = req.body;
   // date = '2022-02'
   let { isIncome } = req.body;
-
   // isIncome = 'true' or 'false'
 
   if (isIncome === 'true') {
@@ -20,12 +19,31 @@ export const getReportByMonthForCategories = async (req, res) => {
     isIncome = false;
   }
 
-  const sortTransactionByMonthForCategories = [
+  const dateSixMonthAgo = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() - 6,
+    new Date().getDate(),
+  )
+    .toISOString()
+    .toString()
+    .slice(0, 7)
+    .split('-')
+    .join('');
+
+  console.log(dateSixMonthAgo);
+
+  const sortTransactionBysixMonth = [
+    {
+      $match: {
+        owner: ObjectId(id),
+        income: isIncome,
+      },
+    },
     {
       $project: {
         reportPeriod: {
           $dateToString: {
-            format: '%Y-%m',
+            format: '%Y%m',
             date: '$createdDate',
           },
         },
@@ -35,50 +53,45 @@ export const getReportByMonthForCategories = async (req, res) => {
         alias: 1,
         icon: 1,
         income: 1,
+        date: 1,
         owner: 1,
       },
     },
     {
+      $addFields: {
+        convertPeriod: {
+          $toInt: '$reportPeriod',
+        },
+      },
+    },
+    {
       $match: {
-        income: isIncome,
-        owner: ObjectId(id),
-        reportPeriod: date,
+        convertPeriod: {
+          $gte: Number(dateSixMonthAgo),
+        },
       },
     },
     {
       $group: {
-        _id: '$category',
+        _id: '$date.month',
         totalSum: {
           $sum: '$sum',
         },
-        alias: {
-          $first: '$alias',
-        },
-        icon: {
-          $first: '$icon',
+        year: {
+          $first: '$convertPeriod',
         },
       },
     },
     {
       $sort: {
-        totalSum: -1,
-      },
-    },
-    {
-      $project: {
-        id: '$alias',
-        icon: 1,
-        totalSum: 1,
-        category_name: '$_id',
-        category_alias: '$alias',
-        _id: 0,
+        year: 1,
       },
     },
   ];
 
-  const resalt = await Transaction.aggregate([
-    sortTransactionByMonthForCategories,
-  ]);
+  const resalt = await Transaction.aggregate([sortTransactionBysixMonth]);
+
+  console.log(resalt);
 
   res.json({
     status: 'success',
