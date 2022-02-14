@@ -182,17 +182,19 @@
         },
         "/api/users/verify/verifyToken": {
             "get": {
-                "tags": ["User"],
+                "tags": [
+                    "User"
+                ],
                 "summary": "User verify",
                 "parameters": [
                     {
-                     "in": "path",
-                     "name": "verifyToken",
-                     "required": true,
-                     "type": "string",
-                     "description":"User's verifyToken"
+                        "in": "path",
+                        "name": "verifyToken",
+                        "required": true,
+                        "type": "string",
+                        "description": "User's verifyToken"
                     }
-                 ],
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -205,9 +207,11 @@
                 }
             }
         },
-       "/api/users/verify": {
+        "/api/users/verify": {
             "post": {
-                "tags": ["User"],
+                "tags": [
+                    "User"
+                ],
                 "summary": "User authentication",
                 "parameters": [],
                 "requestBody": {
@@ -216,7 +220,6 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                
                                 "$ref": "#/components/schemas/VerifyRequest"
                             }
                         }
@@ -238,49 +241,53 @@
                 }
             }
         },
-       "/api/users/balance": {
-          "patch": {
-            "tags": ["User"],
-            "summary": "Update User's balance",
-            "parameters": [],
-            "security": [
-                {"Bearer": []}
-            ],
-            "requestBody": {
-                "description": "Balance object",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/BalanceRequest"
-                        }
+        "/api/users/balance": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User's balance",
+                "parameters": [],
+                "security": [
+                    {
+                        "Bearer": []
                     }
-                }
-            },
-            "responses": {
-                "200": {
-                    "description": "Operation successful",
+                ],
+                "requestBody": {
+                    "description": "Balance object",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/BalanceResponse"
+                                "$ref": "#/components/schemas/BalanceRequest"
                             }
                         }
                     }
                 },
-                "400": {
-                    "description": "Bad request",
-                    "content": {}
-                },
-                "401": {
-                    "description": "Unauthorized",
-                    "content": {}
-                },
-                "404": {
-                    "description": "Invalid user",
-                    "content": {}
+                "responses": {
+                    "200": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BalanceResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Invalid user",
+                        "content": {}
+                    }
                 }
             }
-          }
         },
         "/api/transactions": {
             "get": {
@@ -416,7 +423,7 @@
                 }
             }
         },
-        "api/transactions/month-report-categories": {
+        "api/transactions/report-category-by-month": {
             "get": {
                 "tags": [
                     "Transactions"
@@ -450,7 +457,7 @@
                 }
             }
         },
-        "api/transactions/month-report-subcategories": {
+        "api/transactions/report-subcategory-by-month": {
             "get": {
                 "tags": [
                     "Transactions"
@@ -469,6 +476,90 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/MonthResponseSubCategories"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "api/transactions/report-by-six-month": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "User's transactions for 6 months",
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "description": "Period dates. YYYY-MM format"
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SixMonthsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {}
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "api/transactions/total-sum-by-month": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "User's income/expenses for a month",
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "description": "Period dates. YYYY-MM format"
+                    }
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Operation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IncomeExpensesMonthResponse"
                                 }
                             }
                         }
@@ -869,6 +960,96 @@
                                         "_id": "тоник",
                                         "totalSum": 900,
                                         "count": 3
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "SixMonthsResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "result": {
+                                "type": "array",
+                                "example": [
+                                    {
+                                        "_id": "09",
+                                        "totalSum": 700,
+                                        "year": 202109
+                                    },
+                                    {
+                                        "_id": "10",
+                                        "totalSum": 3700,
+                                        "year": 202110
+                                    },
+                                    {
+                                        "_id": "11",
+                                        "totalSum": 500,
+                                        "year": 202111
+                                    },
+                                    {
+                                        "_id": "12",
+                                        "totalSum": 1500,
+                                        "year": 202112
+                                    },
+                                    {
+                                        "_id": "01",
+                                        "totalSum": 1700,
+                                        "year": 202201
+                                    },
+                                    {
+                                        "_id": "02",
+                                        "totalSum": 12000,
+                                        "year": 202202
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "IncomeExpensesMonthResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Status of request",
+                        "example": "success"
+                    },
+                    "code": {
+                        "type": "number",
+                        "description": "Status of request",
+                        "example": "200"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "result": {
+                                "type": "array",
+                                "example": [
+                                    {
+                                        "_id": "расход",
+                                        "totalSum": 6000,
+                                        "transactionType": "расход"
+                                    },
+                                    {
+                                        "_id": "доход",
+                                        "totalSum": 80000,
+                                        "transactionType": "доход"
                                     }
                                 ]
                             }
