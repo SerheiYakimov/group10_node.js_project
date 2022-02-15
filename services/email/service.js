@@ -5,7 +5,7 @@ class EmailService {
         this.sender = sender;
         switch (env) {
             case 'development':
-                this.link = 'https://kapusta-api-group10.herokuapp.com/';
+                this.link = 'http://localhost:3001/';
                 break;
             case 'production':
                 this.link = 'https://kapusta-api-group10.herokuapp.com/';
