@@ -3,6 +3,7 @@ import {
   verifyUser,
   repeatEmailForVerifyUser,
   currentUser,
+  updateBalance
 } from '../../../controllers/users';
 import { validateEmail } from '../../../middlewares/validations/userValidation';
 import guard from '../../../middlewares/guard/guard';
@@ -13,5 +14,6 @@ const router = new Router();
 router.get('/current', guard, errorWrapper(currentUser));
 router.get('/verify/:verifyToken', errorWrapper(verifyUser));
 router.post('/verify', validateEmail, errorWrapper(repeatEmailForVerifyUser));
+router.patch('/balance', guard, errorWrapper(updateBalance));
 
 export default router;
