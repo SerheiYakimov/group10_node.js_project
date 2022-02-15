@@ -722,17 +722,7 @@
             "BalanceResponse": {
                 "type": "object",
                 "properties": {
-                    "status": {
-                        "type": "string",
-                        "description": "Status of request",
-                        "example": "success"
-                    },
-                    "code": {
-                        "type": "number",
-                        "description": "Status of request",
-                        "example": "200"
-                    },
-                    "data": {
+                    "balance": {
                         "type": "integer",
                         "description": "User`s Balance",
                         "example": 2022
@@ -779,103 +769,75 @@
             "TransactionResponse": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "category": {
                         "type": "string",
-                        "description": "Status of request",
-                        "example": "success"
+                        "description": "Transaction category",
+                        "example": "алкоголь"
                     },
-                    "code": {
-                        "type": "number",
-                        "description": "Status of request",
-                        "example": "200"
+                    "subcategory": {
+                        "type": "string",
+                        "description": "Transaction description ",
+                        "example": "вино"
                     },
-                    "data": {
-                        "type": "object",
-                        "properties": {
-                            "transaction": {
-                                "type": "object",
-                                "properties": {
-                                    "category": {
-                                        "type": "string",
-                                        "description": "Transaction category",
-                                        "example": "алкоголь"
-                                    },
-                                    "subcategory": {
-                                        "type": "string",
-                                        "description": "Transaction description ",
-                                        "example": "вино"
-                                    },
-                                    "sum": {
-                                        "type": "string",
-                                        "description": "Transaction sum",
-                                        "example": "222"
-                                    },
-                                    "date": {
-                                        "type": "object",
-                                        "description": "Transaction date",
-                                        "example": "22.02.2022"
-                                    },
-                                    "transactionType": {
-                                        "type": "boolean",
-                                        "description": "Transaction type",
-                                        "example": false
-                                    },
-                                    "owner": {
-                                        "type": "string",
-                                        "description": "Owner id",
-                                        "example": "190127776c014907c5f14238"
-                                    },
-                                    "id": {
-                                        "type": "string",
-                                        "description": "Transaction id",
-                                        "example": "3456c0b5f7ad766658c74d23"
-                                    }
-                                }
-                            }
-                        }
+                    "sum": {
+                        "type": "string",
+                        "description": "Transaction sum",
+                        "example": "222"
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "Transaction date",
+                        "example": "22.02.2022"
+                    },
+                    "transactionType": {
+                        "type": "boolean",
+                        "description": "Transaction type",
+                        "example": false
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "Owner id",
+                        "example": "190127776c014907c5f14238"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Transaction id",
+                        "example": "3456c0b5f7ad766658c74d23"
                     }
                 }
             },
             "AllTransactionsResponse": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "category": {
                         "type": "string",
-                        "description": "Status of request",
-                        "example": "success"
+                        "description": "Transaction category",
+                        "example": "алкоголь"
                     },
-                    "code": {
-                        "type": "number",
-                        "description": "Status of request",
-                        "example": "200"
+                    "subcategory": {
+                        "type": "string",
+                        "description": "Transaction description ",
+                        "example": "вино"
                     },
-                    "data": {
-                        "type": "object",
-                        "properties": {
-                            "transactions": {
-                                "type": "array",
-                                "example": [
-                                    {
-                                        "category": "алкоголь",
-                                        "subcategory": "вино",
-                                        "sum": 159,
-                                        "date": "11.02.2022",
-                                        "transactionType": false,
-                                        "owner": {
-                                            "name": "Guest",
-                                            "email": "guest@gmail.com",
-                                            "id": "456234888e043907c7f16568"
-                                        },
-                                        "year": 2022,
-                                        "month": 2,
-                                        "day": 22,
-                                        "createdAt": "2022-02-22T22:22:22.222Z",
-                                        "updatedAt": "2022-02-22T22:22:22.222Z",
-                                        "id": "4765b0d5f4ad749878c47c46"
-                                    }
-                                ]
-                            }
-                        }
+                    "sum": {
+                        "type": "string",
+                        "description": "Transaction sum",
+                        "example": "222"
+                    },
+                    "date": {
+                        "type": "string",
+                        "description": "Transaction date",
+                        "example": "22.02.2022"
+                    },
+                    "transactionType": {
+                        "type": "boolean",
+                        "description": "Transaction type",
+                        "example": false
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "Owner's id",
+                        "id": "620127666e014907c7f14946"
                     }
                 }
             },
@@ -891,169 +853,90 @@
             "MonthResponseCategories": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "totalSum": {
+                        "type": "integer",
+                        "description": "Sum spent for month",
+                        "totalSum": 5600
+                    },
+                    "icon": {
                         "type": "string",
-                        "description": "Status of request",
-                        "example": "success"
+                        "description": "Icon",
+                        "icon": "1"
                     },
-                    "code": {
-                        "type": "number",
-                        "description": "Status of request",
-                        "example": "200"
+                    "id": {
+                        "type": "string",
+                        "description": "Id",
+                        "id": "alkohol"
                     },
-                    "data": {
-                        "type": "object",
-                        "properties": {
-                            "result": {
-                                "type": "array",
-                                "example": [
-                                    {
-                                        "totalSum": 5600,
-                                        "icon": "#icon-alcohol",
-                                        "id": "alkohol",
-                                        "category_name": "алкоголь",
-                                        "category_alias": "alkohol"
-                                    },
-                                    {
-                                        "totalSum": 400,
-                                        "icon": "#icon-products",
-                                        "id": "products",
-                                        "category_name": "продукты",
-                                        "category_alias": "products"
-                                    }
-                                ]
-                            }
-                        }
+                    "category_name": {
+                        "type": "string",
+                        "description": "Category name",
+                        "category_name": "алкоголь"
+                    },
+                    "category_alias": {
+                        "type": "string",
+                        "description": "Category alias",
+                        "category_alias": "alkohol"
                     }
                 }
             },
             "MonthResponseSubCategories": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "_id": {
                         "type": "string",
-                        "description": "Status of request",
-                        "example": "success"
+                        "description": "Id",
+                        "_id": "ром"
                     },
-                    "code": {
-                        "type": "number",
-                        "description": "Status of request",
-                        "example": "200"
+                    "totalSum": {
+                        "type": "integer",
+                        "description": "Total sum spent",
+                        "totalSum": 2300
                     },
-                    "data": {
-                        "type": "object",
-                        "properties": {
-                            "result": {
-                                "type": "array",
-                                "example": [
-                                    {
-                                        "_id": "ром",
-                                        "totalSum": 2300,
-                                        "count": 2
-                                    },
-                                    {
-                                        "_id": "вино",
-                                        "totalSum": 1800,
-                                        "count": 4
-                                    },
-                                    {
-                                        "_id": "тоник",
-                                        "totalSum": 900,
-                                        "count": 3
-                                    }
-                                ]
-                            }
-                        }
+                    "count": {
+                        "type": "integer",
+                        "description": "Number of products bought",
+                        "count": 2
                     }
                 }
             },
             "SixMonthsResponse": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "_id": {
                         "type": "string",
-                        "description": "Status of request",
-                        "example": "success"
+                        "description": "Id",
+                        "_id": "ром"
                     },
-                    "code": {
-                        "type": "number",
-                        "description": "Status of request",
-                        "example": "200"
+                    "totalSum": {
+                        "type": "integer",
+                        "description": "Total sum spent",
+                        "totalSum": 700
                     },
-                    "data": {
-                        "type": "object",
-                        "properties": {
-                            "result": {
-                                "type": "array",
-                                "example": [
-                                    {
-                                        "_id": "09",
-                                        "totalSum": 700,
-                                        "year": 202109
-                                    },
-                                    {
-                                        "_id": "10",
-                                        "totalSum": 3700,
-                                        "year": 202110
-                                    },
-                                    {
-                                        "_id": "11",
-                                        "totalSum": 500,
-                                        "year": 202111
-                                    },
-                                    {
-                                        "_id": "12",
-                                        "totalSum": 1500,
-                                        "year": 202112
-                                    },
-                                    {
-                                        "_id": "01",
-                                        "totalSum": 1700,
-                                        "year": 202201
-                                    },
-                                    {
-                                        "_id": "02",
-                                        "totalSum": 12000,
-                                        "year": 202202
-                                    }
-                                ]
-                            }
-                        }
+                    "year": {
+                        "type": "integer",
+                        "description": "Year and month",
+                        "year": 202202
                     }
                 }
             },
             "IncomeExpensesMonthResponse": {
                 "type": "object",
                 "properties": {
-                    "status": {
+                    "_id": {
                         "type": "string",
-                        "description": "Status of request",
-                        "example": "success"
+                        "description": "Id",
+                        "_id": "расход"
                     },
-                    "code": {
-                        "type": "number",
-                        "description": "Status of request",
-                        "example": "200"
+                    "totalSum": {
+                        "type": "integer",
+                        "description": "Total sum spent",
+                        "totalSum": 700
                     },
-                    "data": {
-                        "type": "object",
-                        "properties": {
-                            "result": {
-                                "type": "array",
-                                "example": [
-                                    {
-                                        "_id": "расход",
-                                        "totalSum": 6000,
-                                        "transactionType": "расход"
-                                    },
-                                    {
-                                        "_id": "доход",
-                                        "totalSum": 80000,
-                                        "transactionType": "доход"
-                                    }
-                                ]
-                            }
-                        }
+                    "transactionType": {
+                        "type": "integer",
+                        "description": "Transaction type",
+                        "transactionType": "расход"
                     }
                 }
             }
