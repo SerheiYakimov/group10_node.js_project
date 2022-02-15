@@ -435,6 +435,17 @@
                         "Bearer": []
                     }
                 ],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MonthRequestCategories"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "Operation successful",
@@ -469,6 +480,17 @@
                         "Bearer": []
                     }
                 ],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MonthRequestCategories"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "Operation successful",
@@ -847,6 +869,25 @@
                     "newBalance": {
                         "type": "integer",
                         "description": "User's new balance"
+                    }
+                }
+            },
+            "MonthRequestCategories": {
+                "type": "object",
+                "required": [
+                    "date",
+                    "isIncome"
+                ],
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "description": "month",
+                        "example": "2022-02"
+                    },
+                    "isIncome": {
+                        "type": "boolean",
+                        "description": "Income or expense",
+                        "example": "true"
                     }
                 }
             },
