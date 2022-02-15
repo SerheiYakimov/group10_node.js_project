@@ -22,6 +22,6 @@ const catagorySchema = new Schema({
   },
 });
 
-const Category = model('categorys', catagorySchema);
+const Category = model('category', catagorySchema);
 
 export default Category;
