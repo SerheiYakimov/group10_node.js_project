@@ -12,5 +12,5 @@ export const verifyUser = async (req, res, next) => {
   }
 
   await repositoryUsers.updateVerify(userFromToken.id, true);
-  return res.redirect(`${process.env.FRONTEND_URL}`);
+  return res.redirect(`${process.env.FRONTEND_URL}/verify-redirect`);
 };
