@@ -17,7 +17,7 @@ const router = new Router();
 
 router.post('/registration', validateSingup, errorWrapper(registration));
 router.post('/login', validateLogin, errorWrapper(login));
-router.post('/logout', errorWrapper(guard), errorWrapper(logout));
+router.post('/logout', guard, errorWrapper(logout));
 router.get('/google', errorWrapper(googleAuth));
 router.get('/google-redirect', errorWrapper(googleRedirect));
 
