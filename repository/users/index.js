@@ -5,11 +5,11 @@ const findById = async (id) => {
 }
 
 const findByEmail = async (email) => {
-    return await User.findOne({email})
+    return await User.findOne({ email })
 }
 
 const findByVerifyToken = async (verifyToken) => {
-    return await User.findOne({verifyToken})
+    return await User.findOne({ verifyToken })
 }
 
 const create = async (body) => {
@@ -18,7 +18,7 @@ const create = async (body) => {
 }
 
 const updateToken = async (id, token) => {
-    return await User.updateOne({_id: id}, {token})
+    return await User.updateOne({ _id: id }, { token })
 }
 
 const updateVerify = async (id, status) => {
@@ -29,8 +29,12 @@ const updateVerify = async (id, status) => {
 }
 
 const updateAvatar = async (id, avatarURL) => {
-    return await User.updateOne({_id: id}, {avatarURL})
+    return await User.updateOne({ _id: id }, { avatarURL })
 }
+
+const updateBalance = async (id, balance) => {
+    return await User.updateOne({ _id: id }, { balance }, { new: true })
+};
 
 export default {
     findById,
@@ -40,4 +44,5 @@ export default {
     updateAvatar,
     findByVerifyToken,
     updateVerify,
+    updateBalance
 }
