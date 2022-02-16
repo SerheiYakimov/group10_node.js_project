@@ -20,13 +20,13 @@ const guard = async (req, res, next) => {
   if (!isValidToken) {
     throw new Unauthorized('Not authorized');
   }
+
   const payload = jwt.decode(token);
   const user = await repositoryUsers.findById(payload.id);
   if (!user || user.token !== token) {
     throw new Unauthorized('Not authorized');
   }
   req.user = user;
-  next();
 };
 
 export default guard;
