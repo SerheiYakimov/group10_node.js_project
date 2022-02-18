@@ -13,6 +13,7 @@ export const login = async (req, res, _next) => {
 
   const token = authService.getToken(user);
   await authService.setToken(user.id, token);
+  
   const name = user.email;
   const currentName = name.split('@')[0];
   const avatar = user.avatarURL;
