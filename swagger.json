@@ -307,7 +307,7 @@
                 ],
                 "requestBody": {
                     "description": "Transaction's object",
-                    "required": true,
+                    "required": false,
                     "content": {
                         "application/json": {
                             "schema": {
@@ -322,7 +322,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AllTransactionsResponse"
+                                    "$ref": "#/components/schemas/TransactionsResponse"
                                 }
                             }
                         }
@@ -341,7 +341,7 @@
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "User's transactions",
+                "summary": "Create transaction",
                 "parameters": [],
                 "security": [
                     {
@@ -354,7 +354,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/TransactionRequest"
+                                "$ref": "#/components/schemas/AddTransactionRequest"
                             }
                         }
                     }
@@ -365,7 +365,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TransactionResponse"
+                                    "$ref": "#/components/schemas/AddTransactionsResponse"
                                 }
                             }
                         }
@@ -381,7 +381,7 @@
                 }
             }
         },
-        "api/transactions/{transactionId}": {
+        "/api/transactions/{transactionId}": {
             "delete": {
                 "tags": [
                     "Transactions"
@@ -421,18 +421,18 @@
                         "content": {}
                     },
                     "404": {
-                        "description": "Invalid user",
+                        "description": "Not found transaction",
                         "content": {}
                     }
                 }
             }
         },
-        "api/transactions/report-category-by-month": {
+        "/api/transactions/report-category-by-month": {
             "get": {
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "User's month transactions",
+                "summary": "Report transactions by month on category",
                 "parameters": [],
                 "security": [
                     {
@@ -477,7 +477,7 @@
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "User's month transactions",
+                "summary": "Report transactions by month on subcategory",
                 "parameters": [],
                 "security": [
                     {
@@ -523,20 +523,23 @@
                     "Transactions"
                 ],
                 "summary": "User's transactions for 6 months",
-                "parameters": [
-                    {
-                        "name": "date",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": "Period dates. YYYY-MM format"
-                    }
-                ],
+                "parameters": [],
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SixMonthsRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "Operation successful",
@@ -565,20 +568,23 @@
                     "Transactions"
                 ],
                 "summary": "User's income/expenses for a month",
-                "parameters": [
-                    {
-                        "name": "date",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": "Period dates. YYYY-MM format"
-                    }
-                ],
+                "parameters": [],
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
+                "requestBody": {
+                    "description": "Authentication's object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/IncomeExpensesMonthRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "Operation successful",
@@ -757,12 +763,71 @@
             },
             "TransactionRequest": {
                 "type": "object",
+                "required": false,
+                "properties": {
+                    "transactionType": {
+                        "type": "string",
+                        "description": "Transaction category",
+                        "example": "loss"
+                    }
+                }
+            },
+            "TransactionsResponse": {
+                "type": "object",
+                "properties": {
+                    "category": {
+                        "type": "string",
+                        "description": "Transaction category",
+                        "example": "алкоголь"
+                    },
+                    "subcategory": {
+                        "type": "string",
+                        "description": "Transaction description ",
+                        "example": "вино"
+                    },
+                    "sum": {
+                        "type": "number",
+                        "description": "Transaction sum",
+                        "example": "222"
+                    },
+                    "createdDate": {
+                        "type": "date",
+                        "description": "Transaction date",
+                        "example": "2022-02-19T09: 52: 19.451Z"
+                    },
+                    "transactionType": {
+                        "type": "string",
+                        "description": "Transaction type",
+                        "example": "loss"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Transaction icon",
+                        "exemple": "#icon-alcohol"
+                    },
+                    "alias": {
+                        "type": "string",
+                        "description": "Transaction alias",
+                        "exemple": "alcohol"
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "Owner id",
+                        "example": "190127776c014907c5f14238"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Transaction id",
+                        "example": "3456c0b5f7ad766658c74d23"
+                    }
+                }
+            },
+            "AddTransactionRequest": {
+                "type": "object",
                 "required": [
                     "category",
                     "subcategory",
-                    "sum",
-                    "date",
-                    "transactionType"
+                    "sum"
                 ],
                 "properties": {
                     "category": {
@@ -779,20 +844,10 @@
                         "type": "number",
                         "description": "Transaction sum",
                         "example": 159
-                    },
-                    "date": {
-                        "type": "string",
-                        "description": "Transaction date",
-                        "example": "11.02.2022"
-                    },
-                    "transactionType": {
-                        "type": "boolean",
-                        "description": "Transaction type",
-                        "example": false
                     }
                 }
             },
-            "TransactionResponse": {
+            "AddTransactionsResponse": {
                 "type": "object",
                 "properties": {
                     "category": {
@@ -810,15 +865,25 @@
                         "description": "Transaction sum",
                         "example": "222"
                     },
-                    "date": {
-                        "type": "string",
+                    "createdDate": {
+                        "type": "date",
                         "description": "Transaction date",
-                        "example": "22.02.2022"
+                        "example": "2022-02-19T09: 52: 19.451Z"
                     },
                     "transactionType": {
                         "type": "string",
                         "description": "Transaction type",
                         "example": "loss"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Transaction icon",
+                        "exemple": "#icon-alcohol"
+                    },
+                    "alias": {
+                        "type": "string",
+                        "description": "Transaction alias",
+                        "exemple": "alcohol"
                     },
                     "owner": {
                         "type": "string",
@@ -832,41 +897,6 @@
                     }
                 }
             },
-            "AllTransactionsResponse": {
-                "type": "object",
-                "properties": {
-                    "category": {
-                        "type": "string",
-                        "description": "Transaction category",
-                        "example": "алкоголь"
-                    },
-                    "subcategory": {
-                        "type": "string",
-                        "description": "Transaction description ",
-                        "example": "вино"
-                    },
-                    "sum": {
-                        "type": "string",
-                        "description": "Transaction sum",
-                        "example": "222"
-                    },
-                    "date": {
-                        "type": "string",
-                        "description": "Transaction date",
-                        "example": "22.02.2022"
-                    },
-                    "transactionType": {
-                        "type": "boolean",
-                        "description": "Transaction type",
-                        "example": false
-                    },
-                    "owner": {
-                        "type": "string",
-                        "description": "Owner's id",
-                        "id": "620127666e014907c7f14946"
-                    }
-                }
-            },
             "DeleteResponse": {
                 "type": "object",
                 "properties": {
@@ -874,13 +904,21 @@
                         "type": "integer",
                         "description": "User's new balance"
                     }
+                },
+                "example": {
+                    "status": "success",
+                    "code": 200,
+                    "message": "Transaction successfully deleted",
+                    "data": {
+                        "balance": 85252
+                    }
                 }
             },
             "MonthRequestCategories": {
                 "type": "object",
                 "required": [
                     "date",
-                    "isIncome"
+                    "type"
                 ],
                 "properties": {
                     "date": {
@@ -888,10 +926,10 @@
                         "description": "month",
                         "example": "2022-02"
                     },
-                    "isIncome": {
-                        "type": "boolean",
-                        "description": "Income or expense",
-                        "example": "true"
+                    "type": {
+                        "type": "string",
+                        "description": "Transactions type: income, loss",
+                        "example": "loss"
                     }
                 }
             },
@@ -899,29 +937,29 @@
                 "type": "object",
                 "properties": {
                     "totalSum": {
-                        "type": "integer",
+                        "type": "number",
                         "description": "Sum spent for month",
-                        "totalSum": 5600
+                        "example": 5600
                     },
                     "icon": {
                         "type": "string",
-                        "description": "Icon",
-                        "icon": "1"
+                        "description": "Category icon",
+                        "example": "#icon-alkohol"
                     },
                     "id": {
                         "type": "string",
                         "description": "Id",
-                        "id": "alkohol"
+                        "example": "alkohol"
                     },
                     "category_name": {
                         "type": "string",
                         "description": "Category name",
-                        "category_name": "алкоголь"
+                        "example": "алкоголь"
                     },
                     "category_alias": {
                         "type": "string",
                         "description": "Category alias",
-                        "category_alias": "alkohol"
+                        "example": "alkohol"
                     }
                 }
             },
@@ -931,17 +969,30 @@
                     "_id": {
                         "type": "string",
                         "description": "Id",
-                        "_id": "ром"
+                        "example": "ром"
                     },
                     "totalSum": {
                         "type": "integer",
                         "description": "Total sum spent",
-                        "totalSum": 2300
+                        "example": 2300
                     },
                     "count": {
                         "type": "integer",
                         "description": "Number of products bought",
-                        "count": 2
+                        "example": 2
+                    }
+                }
+            },
+            "SixMonthsRequest": {
+                "type": "object",
+                "required": [
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "Transactions type: income, loss",
+                        "example": "loss"
                     }
                 }
             },
@@ -951,17 +1002,27 @@
                     "_id": {
                         "type": "string",
                         "description": "Id",
-                        "_id": "ром"
+                        "example": "02"
                     },
                     "totalSum": {
                         "type": "integer",
                         "description": "Total sum spent",
-                        "totalSum": 700
+                        "example": 700
                     },
-                    "year": {
+                    "period": {
                         "type": "integer",
                         "description": "Year and month",
-                        "year": 202202
+                        "example": 202202
+                    }
+                }
+            },
+            "IncomeExpensesMonthRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "description": "Id",
+                        "example": "2202-02"
                     }
                 }
             },
@@ -971,17 +1032,12 @@
                     "_id": {
                         "type": "string",
                         "description": "Id",
-                        "_id": "расход"
+                        "example": "income"
                     },
                     "totalSum": {
                         "type": "integer",
                         "description": "Total sum spent",
-                        "totalSum": 700
-                    },
-                    "transactionType": {
-                        "type": "integer",
-                        "description": "Transaction type",
-                        "transactionType": "расход"
+                        "example": 700
                     }
                 }
             }
