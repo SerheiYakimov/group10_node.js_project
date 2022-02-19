@@ -41,9 +41,6 @@ export const geTotalSumByMonth = async (req, res) => {
         totalSum: {
           $sum: '$sum',
         },
-        transactionType: {
-          $first: '$transactionType',
-        },
       },
     },
   ];

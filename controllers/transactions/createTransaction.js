@@ -18,7 +18,6 @@ export const createTransaction = async (req, res) => {
   //   "category": "алкоголь", - как в category.json
   //   "subcategory": "ром",
   //   "sum": "9000",
-  //   "createdDate": "2022-02-19T09:52:19.451Z"
   // }
 
   const categoryData = await Category.findOne({ category });
