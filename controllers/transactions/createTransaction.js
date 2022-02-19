@@ -10,14 +10,15 @@ const { BadRequest, NotFound } = pkg;
 export const createTransaction = async (req, res) => {
   const { _id, balance } = req.user;
 
-  const { category, subcategory, sum, createdDate } = req.body;
+  const { category, subcategory, sum } = req.body;
 
   const sumTransaction = Number(sum);
 
   // {
   //   "category": "алкоголь", - как в category.json
   //   "subcategory": "ром",
-  //   "sum": "9000",
+  //   "sum": 9000,
+  //   "createdDate": 2022-02-19T15:36:25.235Z
   // }
 
   const categoryData = await Category.findOne({ category });
@@ -26,7 +27,7 @@ export const createTransaction = async (req, res) => {
     throw new NotFound(`Category "${category}" is not found`);
   }
 
-  const { alias, icon, income, transactionType } = categoryData;
+  const { alias, icon, transactionType } = categoryData;
 
   const newBalance =
     transactionType === 'income'
@@ -39,13 +40,11 @@ export const createTransaction = async (req, res) => {
 
   const newTransaction = {
     category,
-    subcategory,
+    subcategory: subcategory.toLowerCase(),
     sum: sumTransaction,
     transactionType,
-    createdDate,
     alias,
     icon,
-    income,
     owner: _id,
   };
 
