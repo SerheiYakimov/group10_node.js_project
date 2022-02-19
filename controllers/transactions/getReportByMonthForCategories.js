@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
+import pkg from 'http-errors';
 import Transaction from '../../models/transaction';
 import { HttpCode } from '../../lib/constants';
 
 const ObjectId = mongoose.Types.ObjectId;
+const { BadRequest } = pkg;
 
 export const getReportByMonthForCategories = async (req, res) => {
   const { _id } = req.user;
@@ -10,6 +12,10 @@ export const getReportByMonthForCategories = async (req, res) => {
   const { date, type } = req.body;
   // date = '2022-02'
   // type = 'income' or 'loss'
+
+  if (type !== 'income' && type !== 'loss') {
+    throw new BadRequest('No such type of transaction');
+  }
 
   const sortTransactionByMonthForCategories = [
     {

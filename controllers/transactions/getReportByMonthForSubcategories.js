@@ -13,8 +13,7 @@ export const getReportByMonthForSubcategories = async (req, res) => {
   // date = '2022-02', category = "алкоголь"
 
   const categoryData = await Category.findOne({ category });
-  const { alias, income } = categoryData;
-  console.log(alias, income);
+  const { alias, transactionType } = categoryData;
 
   const sortTransactionByMonthForSubcategories = [
     {
@@ -30,13 +29,13 @@ export const getReportByMonthForSubcategories = async (req, res) => {
         sum: 1,
         alias: 1,
         icon: 1,
-        income: 1,
+        transactionType: 1,
         owner: 1,
       },
     },
     {
       $match: {
-        income: false,
+        transactionType: transactionType,
         alias: alias,
         reportPeriod: date,
         owner: ObjectId(id),
