@@ -7,18 +7,9 @@ const ObjectId = mongoose.Types.ObjectId;
 export const getReportByMonthForCategories = async (req, res) => {
   const { _id } = req.user;
   const id = _id.toString();
-  const { date } = req.body;
+  const { date, type } = req.body;
   // date = '2022-02'
-  let { isIncome } = req.body;
-
-  // isIncome = 'true' or 'false'
-
-  if (isIncome === 'true') {
-    isIncome = true;
-  }
-  if (isIncome === 'false') {
-    isIncome = false;
-  }
+  // type = 'income' or 'loss'
 
   const sortTransactionByMonthForCategories = [
     {
@@ -34,13 +25,13 @@ export const getReportByMonthForCategories = async (req, res) => {
         sum: 1,
         alias: 1,
         icon: 1,
-        income: 1,
+        transactionType: 1,
         owner: 1,
       },
     },
     {
       $match: {
-        income: isIncome,
+        transactionType: type,
         owner: ObjectId(id),
         reportPeriod: date,
       },

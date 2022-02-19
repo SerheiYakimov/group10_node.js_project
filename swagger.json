@@ -816,9 +816,9 @@
                         "example": "22.02.2022"
                     },
                     "transactionType": {
-                        "type": "boolean",
+                        "type": "string",
                         "description": "Transaction type",
-                        "example": false
+                        "example": "loss"
                     },
                     "owner": {
                         "type": "string",
