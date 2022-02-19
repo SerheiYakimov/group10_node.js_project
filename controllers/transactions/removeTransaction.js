@@ -5,10 +5,12 @@ export const removeTransaction = async (req, res, next) => {
   const { id } = req.params;
   const { _id, balance } = req.user;
 
+  const userBalance = Number(balance);
+
   const transactions = await repositoryTransactions.removeTransaction(
     id,
     _id,
-    balance,
+    userBalance,
   );
 
   res.status(HttpCode.OK).json({

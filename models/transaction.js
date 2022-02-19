@@ -15,9 +15,6 @@ const transactionSchema = new Schema(
       type: Number,
       required: [true, 'Set sum of transaction'],
     },
-    date: {
-      type: Object,
-    },
     createdDate: {
       type: Date,
       default: new Date().toISOString(),
@@ -25,11 +22,7 @@ const transactionSchema = new Schema(
     transactionType: {
       type: String,
       required: true,
-      enum: ['расход', 'доход'],
-    },
-    income: {
-      type: Boolean,
-      default: false, // expenses - false, income - true
+      // enum: ['loss', 'income'],
     },
     icon: {
       type: String,

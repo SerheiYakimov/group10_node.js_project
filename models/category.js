@@ -16,9 +16,9 @@ const catagorySchema = new Schema({
     type: String,
     required: true,
   },
-  income: {
+  transactionType: {
     type: String,
-    default: true,
+    required: true,
   },
 });
 
