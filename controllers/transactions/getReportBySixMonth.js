@@ -7,17 +7,8 @@ const ObjectId = mongoose.Types.ObjectId;
 export const getReportBySixMonth = async (req, res) => {
   const { _id } = req.user;
   const id = _id.toString();
-  const { date } = req.body;
-  // date = '2022-02'
-  let { isIncome } = req.body;
-  // isIncome = 'true' or 'false'
-
-  if (isIncome === 'true') {
-    isIncome = true;
-  }
-  if (isIncome === 'false') {
-    isIncome = false;
-  }
+  const { type } = req.body;
+  // type = 'income' or 'loss'
 
   const dateSixMonthAgo = new Date(
     new Date().getFullYear(),
@@ -36,7 +27,7 @@ export const getReportBySixMonth = async (req, res) => {
     {
       $match: {
         owner: ObjectId(id),
-        income: isIncome,
+        transactionType: type,
       },
     },
     {
@@ -52,7 +43,7 @@ export const getReportBySixMonth = async (req, res) => {
         sum: 1,
         alias: 1,
         icon: 1,
-        income: 1,
+        transactionType: 1,
         date: 1,
         owner: 1,
       },
@@ -72,19 +63,29 @@ export const getReportBySixMonth = async (req, res) => {
       },
     },
     {
+      $project: {
+        month: {
+          $substr: ['$reportPeriod', 4, 2],
+        },
+        reportPeriod: 1,
+        convertPeriod: 1,
+        sum: 1,
+      },
+    },
+    {
       $group: {
-        _id: '$date.month',
+        _id: '$month',
         totalSum: {
           $sum: '$sum',
         },
-        year: {
+        period: {
           $first: '$convertPeriod',
         },
       },
     },
     {
       $sort: {
-        year: 1,
+        period: -1,
       },
     },
   ];

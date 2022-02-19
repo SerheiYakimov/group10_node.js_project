@@ -10,16 +10,7 @@ const { BadRequest, NotFound } = pkg;
 export const createTransaction = async (req, res) => {
   const { _id, balance } = req.user;
 
-  const {
-    category,
-    subcategory,
-    sum,
-    transactionType,
-    createdDate,
-    year,
-    month,
-    day,
-  } = req.body;
+  const { category, subcategory, sum, createdDate } = req.body;
 
   const sumTransaction = Number(sum);
 
@@ -27,10 +18,7 @@ export const createTransaction = async (req, res) => {
   //   "category": "алкоголь", - как в category.json
   //   "subcategory": "ром",
   //   "sum": "9000",
-  //   "transactionType": "расход", // "доход",
-  //   "year": "2022",
-  //   "month": "02",
-  //   "day": "13"
+  //   "createdDate": "2022-02-19T09:52:19.451Z"
   // }
 
   const categoryData = await Category.findOne({ category });
@@ -39,12 +27,12 @@ export const createTransaction = async (req, res) => {
     throw new NotFound(`Category "${category}" is not found`);
   }
 
-  const { alias, icon, income } = categoryData;
-
-  console.log(typeof income);
+  const { alias, icon, income, transactionType } = categoryData;
 
   const newBalance =
-    income === 'true' ? balance + sumTransaction : balance - sumTransaction;
+    transactionType === 'income'
+      ? balance + sumTransaction
+      : balance - sumTransaction;
 
   if (newBalance < 0) {
     throw new BadRequest('Insufficient funds on the balance sheet');
@@ -60,11 +48,6 @@ export const createTransaction = async (req, res) => {
     icon,
     income,
     owner: _id,
-    date: {
-      year,
-      month,
-      day,
-    },
   };
 
   await User.findByIdAndUpdate({ _id }, { balance: newBalance });

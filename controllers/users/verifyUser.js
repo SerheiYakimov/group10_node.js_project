@@ -10,7 +10,6 @@ export const verifyUser = async (req, res, next) => {
   if (!userFromToken) {
     throw new BadRequest('Invalid token');
   }
-
   await repositoryUsers.updateVerify(userFromToken.id, true);
   return res.redirect(`${process.env.FRONTEND_URL}/verify-redirect`);
 };

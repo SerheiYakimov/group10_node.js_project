@@ -57,8 +57,10 @@ const removeTransaction = async (transactionId, userId, balance) => {
     throw new NotFound(`Transaction ${transactionId} is not found`);
   }
 
-  const { income, sum } = transaction;
-  const newBalance = income === true ? balance - sum : balance + Number(sum);
+  console.log(typeof balance);
+  const { transactionType, sum } = transaction;
+  const newBalance =
+    transactionType === 'income' ? balance - sum : balance + sum;
 
   if (newBalance < 0) {
     throw new BadRequest('Insufficient funds on the balance sheet');
