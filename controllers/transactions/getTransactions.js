@@ -9,7 +9,7 @@ export const getTransactions = async (req, res) => {
 
   const transactions = await repositoryTransactions.transactionsList(
     _id,
-    req.body,
+    req.query,
   );
   if (!transactions) {
     {

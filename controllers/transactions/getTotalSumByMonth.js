@@ -7,7 +7,7 @@ const ObjectId = mongoose.Types.ObjectId;
 export const geTotalSumByMonth = async (req, res) => {
   const { _id } = req.user;
   const id = _id.toString();
-  const { date } = req.body;
+  const { date } = req.query;
   // date = '2022-02'
 
   const sortTransactionByTotalSumMonth = [

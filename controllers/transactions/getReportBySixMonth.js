@@ -7,7 +7,7 @@ const ObjectId = mongoose.Types.ObjectId;
 export const getReportBySixMonth = async (req, res) => {
   const { _id } = req.user;
   const id = _id.toString();
-  const { type } = req.body;
+  const { type } = req.query;
   // type = 'income' or 'loss'
 
   const dateSixMonthAgo = new Date(
