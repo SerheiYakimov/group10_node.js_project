@@ -9,7 +9,7 @@ export const getReportByMonthForSubcategories = async (req, res) => {
   const { _id } = req.user;
   console.log(_id);
   const id = _id.toString();
-  const { date, category } = req.body;
+  const { date, category } = req.query;
   // date = '2022-02', category = "алкоголь"
 
   const categoryData = await Category.findOne({ category });
