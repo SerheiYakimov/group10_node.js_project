@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
+import pkg from 'http-errors';
 import Transaction from '../../models/transaction';
 import Category from '../../models/category';
 import { HttpCode } from '../../lib/constants';
 
 const ObjectId = mongoose.Types.ObjectId;
+const { BadRequest } = pkg;
 
 export const getReportByMonthForSubcategories = async (req, res) => {
   const { _id } = req.user;
@@ -13,6 +15,11 @@ export const getReportByMonthForSubcategories = async (req, res) => {
   // date = '2022-02', category = "alcohol"
 
   const categoryData = await Category.findOne({ alias: category });
+
+  if (!categoryData) {
+    throw new BadRequest('Opps! There`s no such category!');
+  }
+
   const { transactionType } = categoryData;
 
   const sortTransactionByMonthForSubcategories = [
