@@ -12,7 +12,7 @@ export const getReportBySixMonth = async (req, res) => {
 
   const dateSixMonthAgo = new Date(
     new Date().getFullYear(),
-    new Date().getMonth() - 6,
+    new Date().getMonth() - 5,
     new Date().getDate(),
   )
     .toISOString()
