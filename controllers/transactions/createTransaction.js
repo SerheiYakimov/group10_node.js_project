@@ -1,4 +1,5 @@
 import pkg from 'http-errors';
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
 import { HttpCode } from '../../lib/constants';
 // import repositoryTransactions from '../../repository/transactions';
 import Transaction from '../../models/transaction';
@@ -6,11 +7,12 @@ import User from '../../models/user';
 import Category from '../../models/category';
 
 const { BadRequest, NotFound } = pkg;
+const cyrillicToTranslit = new CyrillicToTranslit();
 
 export const createTransaction = async (req, res) => {
   const { _id, balance } = req.user;
 
-  const { category, subcategory, sum } = req.body;
+  const { category, subcategory, sum, createdDate } = req.body;
 
   const sumTransaction = Number(sum);
 
@@ -40,13 +42,18 @@ export const createTransaction = async (req, res) => {
 
   const newTransaction = {
     category,
-    subcategory: subcategory.toLowerCase(),
-    sum: sumTransaction,
+    subcategory: subcategory.toLowerCase().trim(),
+    subAlias: cyrillicToTranslit.transform(subcategory, '_'),
+    createdDate,
+    sum,
+    sumTransaction,
     transactionType,
     alias,
     icon,
     owner: _id,
   };
+
+  console.log(newTransaction);
 
   await User.findByIdAndUpdate({ _id }, { balance: newBalance });
 

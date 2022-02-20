@@ -11,6 +11,10 @@ const transactionSchema = new Schema(
       type: String,
       required: true,
     },
+    subAlias: {
+      type: String,
+      required: true,
+    },
     sum: {
       type: Number,
       required: [true, 'Set sum of transaction'],

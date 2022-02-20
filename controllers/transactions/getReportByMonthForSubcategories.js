@@ -28,6 +28,7 @@ export const getReportByMonthForSubcategories = async (req, res) => {
         subcategory: 1,
         sum: 1,
         alias: 1,
+        subAlias: 1,
         icon: 1,
         transactionType: 1,
         owner: 1,
@@ -43,7 +44,10 @@ export const getReportByMonthForSubcategories = async (req, res) => {
     },
     {
       $group: {
-        _id: '$subcategory',
+        _id: '$subAlias',
+        subcategory: {
+          $first: '$subcategory',
+        },
         totalSum: {
           $sum: '$sum',
         },
