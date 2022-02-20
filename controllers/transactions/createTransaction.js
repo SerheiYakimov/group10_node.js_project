@@ -16,6 +16,8 @@ export const createTransaction = async (req, res) => {
 
   const sumTransaction = Number(sum);
 
+  const transformSubcategory = subcategory.replace(/[^A-Za-zА-Яа-яЁё]/g, '');
+
   // {
   //   "category": "алкоголь", - как в category.json
   //   "subcategory": "ром",
@@ -43,7 +45,7 @@ export const createTransaction = async (req, res) => {
   const newTransaction = {
     category,
     subcategory: subcategory.toLowerCase().trim(),
-    subAlias: cyrillicToTranslit.transform(subcategory, '_'),
+    subAlias: cyrillicToTranslit.transform(transformSubcategory, ''),
     createdDate,
     sum,
     sumTransaction,
