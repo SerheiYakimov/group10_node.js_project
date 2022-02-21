@@ -700,6 +700,11 @@
                         "type": "string",
                         "description": "User's token",
                         "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMDFiY2Q4YmVjNjQ1MTg4OTg5MzE5YyIsImVtYWlsIjoieXNlcmdleTI5MDFAZ21haWwuY29tIiwiaWF0IjoxNjQ0Mzk2NTEzLCJleHAiOjE2NDQ0MDAxMTN9.kY4fuz1rVKHPgZYPf9wiWIfWithGeS7nA0r_Gk_GvZQ"
+                    },
+                    "balance": {
+                        "type": "integer",
+                        "description": "User's balance",
+                        "example": "1000"
                     }
                 }
             },

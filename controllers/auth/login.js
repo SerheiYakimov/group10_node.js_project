@@ -10,10 +10,11 @@ export const login = async (req, res, _next) => {
   if (!user) {
     throw new Unauthorized('Invalid credentials');
   }
-
+  
   const token = authService.getToken(user);
   await authService.setToken(user.id, token);
   
+  const balance = user.balance;
   const name = user.email;
   const currentName = name.split('@')[0];
   const avatar = user.avatarURL;
@@ -26,6 +27,7 @@ export const login = async (req, res, _next) => {
         name: currentName,
         avatar,
         token,
+        balance,
       },
     },
   });
