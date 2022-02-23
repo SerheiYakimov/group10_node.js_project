@@ -19,6 +19,7 @@ export const removeTransaction = async (req, res, next) => {
     message: 'Transaction successfully deleted',
     data: {
       balance: transactions,
+      id: _id,
     },
   });
 };
