@@ -9,7 +9,13 @@ const { BadRequest } = pkg;
 export const getReportByMonthForCategories = async (req, res) => {
   const { _id } = req.user;
   const id = _id.toString();
-  const { date, type } = req.query;
+  let { date, type } = req.query;
+
+  if (date.length === 6) {
+    const normalizedDate = date.split('-');
+    normalizedDate[1] = '0' + normalizedDate[1];
+    date = normalizedDate.join('-');
+  }
   // date = '2022-02'
   // type = 'income' or 'loss'
 
