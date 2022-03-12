@@ -43,7 +43,7 @@ export const googleRedirect = async (req, res) => {
   await authService.setToken(user.id, token);
   
      return res.redirect(
-      `${process.env.FRONTEND_URL}/google-redirect?accessToken=${token}`
+      `${process.env.FRONTEND_URL}google-redirect?accessToken=${token}`
     );
   };
 
