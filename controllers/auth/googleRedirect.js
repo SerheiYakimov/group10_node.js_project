@@ -19,7 +19,7 @@ export const googleRedirect = async (req, res) => {
     data: {
       client_id: process.env.GOOGLE_CLIENT_ID,
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
-      redirect_uri: `${process.env.BASE_URL}/api/auth/google-redirect`,
+      redirect_uri: `${process.env.BASE_URL}/api/users/google-redirect`,
       grant_type: 'authorization_code',
       code,
     },
@@ -43,7 +43,7 @@ export const googleRedirect = async (req, res) => {
   await authService.setToken(user.id, token);
   
      return res.redirect(
-      `${process.env.FRONTEND_URL}google-redirect?accessToken=${token}`
+      `${process.env.FRONTEND_URL}/google-redirect?accessToken=${token}`
     );
   };
 
